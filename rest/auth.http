@@ -1,0 +1,29 @@
+@url = http://localhost:3000
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGFlNzQ4ZDQ2ZDU4YjczOGE1ODk3NSIsInVzZXJOYW1lIjoiaGFzaGVtMSIsImlhdCI6MTY4NjgyNDc5NywiZXhwIjoxNjg3NDI5NTk3fQ.lRUhGoF7SJhqNcy9MTpRzOd17dxjcse_eQrlN1rQJcw
+### LOGIN
+POST {{url}}/user/login
+Content-Type: application/json
+
+{
+    "userName":"hashem1",
+    "password":"hahsemhahsem"
+}
+
+### REGISTER
+POST {{url}}/user/signUp
+Content-Type: application/json
+
+{
+    "userName":"hashem1",
+    "password":"hahsemhahsem",
+    "firstName":"body2",
+    "lastName":"ahmed2",
+    "DOB":"2015-03-25"
+}
+
+
+### auth
+Get {{url}}/user/auth
+Content-Type: application/json
+
