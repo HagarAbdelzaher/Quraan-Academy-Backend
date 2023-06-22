@@ -1,4 +1,4 @@
-function addCourseSessions(course) {
+function calculateCourseSessions(course) {
   //get course data // sessionsData //
   //loop
   const { sessionsData, _id, startDate, endDate } = course;
@@ -20,26 +20,27 @@ function addCourseSessions(course) {
   return result;
 }
 
-// function CalculateSessionsData(datesOfSessions) {
-//   // get course Data from database // sessionsData //courseId
-//   let courseSessions = [];
+function addCourseSessions(datesOfSessions, course) {
+  // get course Data from database // sessionsData //courseId
+  const { sessionsData, _id, startDate, endDate } = course;
+  let courseSessions = [];
 
-//   for (let i = 0; i < datesOfSessions.length; i++) {
-//     const day = getDayofWeek(datesOfSessions[i]);
-//     const currentSession = {
-//       date: datesOfSessions[i],
-//       courseId,
-//     };
-//     sessionsData.forEach((session) => {
-//       if (session.day === day) {
-//         currentSession.startTime = session.startTime;
-//         currentSession.endTime = session.endTime;
-//       }
-//       courseSessions.push(currentSession);
-//     });
-//     //insert Many for course sessions in database
-//   }
-// }
+  for (let i = 0; i < datesOfSessions.length; i++) {
+    const day = getDayofWeek(datesOfSessions[i]);
+    const currentSession = {
+      date: datesOfSessions[i],
+      courseId: _id,
+    };
+    sessionsData.forEach((session) => {
+      if (session.day === day) {
+        currentSession.startTime = session.startTime;
+        currentSession.endTime = session.endTime;
+      }
+      courseSessions.push(currentSession);
+    });
+    //insert Many for course sessions in database
+  }
+}
 
 // function getDayOfWeek(date) {
 //   const daysOfWeek = [
