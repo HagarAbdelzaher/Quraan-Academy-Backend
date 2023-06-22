@@ -1,9 +1,9 @@
-const Joi = require('joi');
-const { BaseError } = require('../libs');
+const Joi = require("joi");
+const { BaseError } = require("../libs");
 
 const validation = (schema) => async (req, res, next) => {
   const validationErr = [];
-  ['body', 'params', 'query'].forEach((key) => {
+  ["body", "params", "query"].forEach((key) => {
     if (schema[key]) {
       const validations = schema[key].validate(req[key]);
       if (validations.error) {
@@ -12,7 +12,12 @@ const validation = (schema) => async (req, res, next) => {
     }
   });
   if (validationErr.length > 0) {
-    next(new BaseError(`validation error ${validationErr[0].details[0].message}`, 422));
+    next(
+      new BaseError(
+        `validation error ${validationErr[0].details[0].message}`,
+        422
+      )
+    );
   } else {
     next();
   }
@@ -32,9 +37,38 @@ const UsersValidator = {
       firstName: Joi.string().required().min(3),
       lastName: Joi.string().required().min(3),
       DOB: Joi.date().required(),
-      gender: Joi.string().valid('Male', 'Female').required(),
+      gender: Joi.string().valid("Male", "Female").required(),
+    }),
+  },
+};
+const CourseValidator = {
+  addCourse: {
+    body: Joi.object().keys({
+      name: Joi.string().required(),
+      level: Joi.string().required(),
+      description: Joi.string().required(),
+      numberOfSessions: Joi.number().required(),
+      startDate: Joi.date().required(),
+      endDate: Joi.date().required(),
+      startTime: Joi.string().required(),
+      endTime: Joi.string().required(),
+      daysOfWeek: Joi.array()
+        .items(
+          Joi.string().valid(
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          )
+        )
+        .required(),
+      teacher: Joi.string().required().length(24),
+      price: Joi.number().required(),
     }),
   },
 };
 
-module.exports = { validation, UsersValidator };
+module.exports = { validation, UsersValidator, CourseValidator };
