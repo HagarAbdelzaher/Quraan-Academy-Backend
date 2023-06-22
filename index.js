@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-unused-vars */
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -6,7 +8,6 @@ const routes = require('./routes');
 
 const mongourl = process.env.mongoUrl;
 mongoose.connect(mongourl);
-console.log(mongourl);
 const app = express();
 
 app.use(cors());

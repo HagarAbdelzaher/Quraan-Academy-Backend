@@ -21,20 +21,20 @@ const validation = (schema) => async (req, res, next) => {
 const UsersValidator = {
   login: {
     body: Joi.object().keys({
-      userName: Joi.string().required(),
+      email: Joi.string().email().required(),
       password: Joi.string().required().min(8),
     }),
   },
   signUp: {
     body: Joi.object().keys({
-      userName: Joi.string().required(),
+      email: Joi.string().email().required(),
       password: Joi.string().required().min(8),
       firstName: Joi.string().required().min(3),
       lastName: Joi.string().required().min(3),
       DOB: Joi.date().required(),
+      gender: Joi.string().valid('Male', 'Female').required(),
     }),
   },
 };
-
 
 module.exports = { validation, UsersValidator };

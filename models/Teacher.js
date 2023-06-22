@@ -1,11 +1,13 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const { Schema } = mongoose;
 
-const userSchema = new Schema(
+const teacherSchema = new Schema(
   {
-    userName: {
+    email: {
       type: String,
       required: true,
       unique: true,
@@ -30,6 +32,11 @@ const userSchema = new Schema(
       type: Date,
       required: true,
     },
+    gender: {
+      type: String,
+      enum: ['Male', 'Female'],
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -41,20 +48,20 @@ const userSchema = new Schema(
   },
 );
 
-userSchema.pre('save', function preSave(next) {
+teacherSchema.pre('save', function preSave(next) {
   this.password = bcrypt.hashSync(this.password, 10);
   next();
 });
 
-userSchema.methods.verfiyPassword = function verfiyPassword(password) {
+teacherSchema.methods.verfiyPassword = function verfiyPassword(password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-userSchema.pre('findOneAndUpdate', function preUpdate(next) {
+teacherSchema.pre('findOneAndUpdate', function preUpdate(next) {
   this._update.password = bcrypt.hashSync(this._update.password, 10);
   next();
 });
 
-const User = mongoose.model('User', userSchema);
+const Teacher = mongoose.model('Teacher', teacherSchema);
 
-module.exports = User;
+module.exports = Teacher;

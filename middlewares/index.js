@@ -1,5 +1,7 @@
-const { auth } = require('./auth');
+const { authStudent, authTeacher, authAdmin } = require('./auth');
 
 module.exports = {
-  auth,
+  authStudent,
+  authTeacher,
+  authAdmin,
 };

@@ -1,29 +1,61 @@
 @url = http://localhost:3000
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGFlNzQ4ZDQ2ZDU4YjczOGE1ODk3NSIsInVzZXJOYW1lIjoiaGFzaGVtMSIsImlhdCI6MTY4NjgyNDc5NywiZXhwIjoxNjg3NDI5NTk3fQ.lRUhGoF7SJhqNcy9MTpRzOd17dxjcse_eQrlN1rQJcw
-### LOGIN
-POST {{url}}/user/login
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQ0YTYwNTY0NTkxNGIwYTAzZDYwYiIsImVtYWlsIjoiaGFzaGVtQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4NzQ0OTYzNSwiZXhwIjoxNjg4MDU0NDM1fQ.7RCUMAhRopfBJPWCH0pc7eKuvjvOdRGmoylxUrqAPRA
+
+### LOGIN_Student
+POST {{url}}/login/student
 Content-Type: application/json
 
 {
-    "userName":"hashem1",
+    "email":"abdelrahman@gmail.com",
     "password":"hahsemhahsem"
 }
 
-### REGISTER
-POST {{url}}/user/signUp
+
+### LOGIN_Teacher
+POST {{url}}/login/teacher
 Content-Type: application/json
 
 {
-    "userName":"hashem1",
-    "password":"hahsemhahsem",
-    "firstName":"body2",
-    "lastName":"ahmed2",
-    "DOB":"2015-03-25"
+    "email":"alffi@gmail.com",
+    "password":"hahsemhahsem"
 }
 
 
-### auth
-Get {{url}}/user/auth
+### LOGIN_Admin
+POST {{url}}/login/admin
 Content-Type: application/json
 
+{
+    "email":"hashem@gmail.com",
+    "password":"hahsemhahsem"
+}
+
+
+### REGISTER_Student
+POST {{url}}/signUp/student
+Content-Type: application/json
+
+{
+    "email":"abdelrahman@gmail.com",
+    "password":"hahsemhahsem",
+    "firstName":"body2",
+    "lastName":"ahmed2",
+    "DOB":"2015-03-25",
+    "gender":"Male"
+}
+
+
+### REGISTER_Teacher
+POST {{url}}/signUp/teacher
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "email":"alffi@gmail.com",
+    "password":"hahsemhahsem",
+    "firstName":"body2",
+    "lastName":"ahmed2",
+    "DOB":"2015-03-25",
+    "gender":"Male"
+}
