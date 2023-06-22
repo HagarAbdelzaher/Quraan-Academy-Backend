@@ -30,30 +30,27 @@ const courseSchema = new Schema(
       type: Date,
       required: true,
     },
-    sessionsData: {
+    startTime: {
+      type: String,
+      required: true,
+    },
+    endTime: {
+      type: String,
+      required: true,
+    },
+    daysOfWeek: {
       type: [
         {
-          dayOfWeek: {
-            type: String,
-            enum: [
-              "Sunday",
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday",
-            ],
-            unique: true,
-          },
-          startTime: {
-            type: String,
-            required: true,
-          },
-          endTime: {
-            type: String,
-            required: true,
-          },
+          type: String,
+          enum: [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+          ],
         },
       ],
       required: true,

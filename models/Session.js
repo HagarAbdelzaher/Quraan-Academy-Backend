@@ -6,6 +6,7 @@ const sessionSchema = new Schema(
   {
     courseID: {
       type: mongoose.Types.ObjectId,
+      ref: "Course",
       required: true,
     },
     date: {

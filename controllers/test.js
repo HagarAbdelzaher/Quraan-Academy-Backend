@@ -1,24 +1,24 @@
-// function getSundaysAndTuesdays(startDate, endDate) {
-//   //get course data // sessionsData //
-//   //loop
-//   const daysOfWeek = sessionsData.map((session) => session.day);
-//   //const daysOfWeek = ["Sunday", "Tuesday"];
-//   const result = [];
+function addCourseSessions(course) {
+  //get course data // sessionsData //
+  //loop
+  const { sessionsData, _id, startDate, endDate } = course;
+  const daysOfWeek = sessionsData.map((session) => session.day); // ["Sunday,"Tuesday"]
+  const result = [];
 
-//   // get all dates of sundays and tuesdays
-//   let currentDate = new Date(startDate);
-//   while (currentDate <= endDate) {
-//     if (
-//       daysOfWeek.includes(
-//         currentDate.toLocaleDateString("en-US", { weekday: "long" })
-//       )
-//     ) {
-//       result.push(new Date(currentDate));
-//     }
-//     currentDate.setDate(currentDate.getDate() + 1);
-//   }
-//   return result;
-// }
+  // get all dates of sundays and tuesdays during the course duration
+  let currentDate = new Date(startDate);
+  while (currentDate <= endDate) {
+    if (
+      daysOfWeek.includes(
+        currentDate.toLocaleDateString("en-US", { weekday: "long" })
+      )
+    ) {
+      result.push(new Date(currentDate));
+    }
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  return result;
+}
 
 // function CalculateSessionsData(datesOfSessions) {
 //   // get course Data from database // sessionsData //courseId
@@ -54,3 +54,7 @@
 //   const dayIndex = date.getDay();
 //   return daysOfWeek[dayIndex];
 // }
+
+const addCourse = async (userName, password) => {};
+
+const addCourseSessions = async (course) => {};
