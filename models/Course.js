@@ -11,6 +11,7 @@ const courseSchema = new Schema(
     },
     level: {
       type: String,
+      enum: ["beginner", "intermediate", "advanced"],
       required: true,
     },
     description: {

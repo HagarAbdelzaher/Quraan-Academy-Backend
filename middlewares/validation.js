@@ -45,7 +45,9 @@ const CourseValidator = {
   addCourse: {
     body: Joi.object().keys({
       name: Joi.string().required(),
-      level: Joi.string().required(),
+      level: Joi.string()
+        .valid("beginner", "intermediate", "advanced")
+        .required(),
       description: Joi.string().required(),
       numberOfSessions: Joi.number().required(),
       startDate: Joi.date().required(),
@@ -67,6 +69,13 @@ const CourseValidator = {
         .required(),
       teacher: Joi.string().required().length(24),
       price: Joi.number().required(),
+    }),
+  },
+  getCourses: {
+    query: Joi.object().keys({
+      level: Joi.string().valid("beginner", "intermediate", "advanced"),
+      teacher: Joi.string().length(24),
+      page: Joi.number().min(1).max(1000),
     }),
   },
 };

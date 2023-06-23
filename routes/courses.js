@@ -5,26 +5,30 @@ const { asycnWrapper } = require("../libs");
 const { validation, CourseValidator } = require("../middlewares/validation");
 const router = express.Router();
 
-// -> get courses // pagination //filter (teacher , level , )
+// -> get courses // pagination //filter (teacher , level)
 //  By Admin
 // -> add course /course/ DONE
 // -> delete course /course/
 // -> update course  ( description , teacher , level , add extra sessions to this course)
 
-router.get("/", async (req, res, next) => {
-  const { teacher, level, page = 1 } = req.query;
-  if (page < 1 || page > 1000) {
-    page = 1;
-  }
-  const limit = 6;
-  const courses = courseController.getCourses(page, limit, teacher, level);
-  const [error, data] = await asycnWrapper(courses);
+router.get(
+  "/",
+  validation(CourseValidator.getCourses),
+  async (req, res, next) => {
+    const { teacher, level, page = 1 } = req.query;
+    if (page < 1 || page > 1000) {
+      page = 1;
+    }
+    const limit = 6;
+    const courses = courseController.getCourses(page, limit, teacher, level);
+    const [error, data] = await asycnWrapper(courses);
 
-  if (error) {
-    return next(error);
+    if (error) {
+      return next(error);
+    }
+    res.status(200).json(data);
   }
-  res.status(200).json(data);
-});
+);
 router.post(
   "/",
   validation(CourseValidator.addCourse),
