@@ -9,9 +9,9 @@ const router = express.Router();
 //  By Admin
 // -> add course /course/ DONE
 // -> update course  ( description , teacher , level ) // DONE
-
 // -> delete course /course/ // with all of its sessions
 // DONE except ( deleting a course with students condition)
+
 // -> add extra session to course
 
 router.get(

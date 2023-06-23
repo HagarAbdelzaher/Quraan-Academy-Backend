@@ -93,6 +93,16 @@ const updateCourse = async (courseId, newData) => {
   if (!updatedCourse) {
     throw new BaseError("Cannot update course", 500);
   }
+  if (startDate || endDate || startTime || endTime || daysOfWeek) {
+    const deletedSessions = await Session.deleteMany({ courseID: courseId });
+    if (!deletedSessions) {
+      throw new BaseError("Course sessions Cannot be deleted", 500);
+    }
+    const newSessions = addCourseSessions(updatedCourse);
+    if (!newSessions) {
+      throw new BaseError("Course sessions Cannot be added", 500);
+    }
+  }
   return updatedCourse;
 };
 const deleteCourse = async (courseId) => {
