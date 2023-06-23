@@ -5,11 +5,12 @@ const { asycnWrapper } = require("../libs");
 const { validation, CourseValidator } = require("../middlewares/validation");
 const router = express.Router();
 
-// -> get courses // pagination //filter (teacher , level)
+// -> get courses // pagination //filter (teacher , level) //DONE
 //  By Admin
 // -> add course /course/ DONE
-// -> delete course /course/
-// -> update course  ( description , teacher , level , add extra sessions to this course)
+// -> delete course /course/ // with all of its sessions
+// -> update course  ( description , teacher , level )
+// -> add extra session to course
 
 router.get(
   "/",
@@ -74,5 +75,17 @@ router.post(
     res.status(200).json({ course: data, sessions: dataOfSessions });
   }
 );
-
+router.patch(
+  "/:id",
+  validation(CourseValidator.updateCourse),
+  async (req, res, next) => {
+    const courseId = req.params.id;
+    const course = courseController.updateCourse(courseId, req.body);
+    const [error, data] = await asycnWrapper(course);
+    if (error) {
+      return next(error);
+    }
+    res.status(200).json(data);
+  }
+);
 module.exports = router;

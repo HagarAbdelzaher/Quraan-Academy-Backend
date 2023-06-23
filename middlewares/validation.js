@@ -78,6 +78,31 @@ const CourseValidator = {
       page: Joi.number().min(1).max(1000),
     }),
   },
+  updateCourse: {
+    body: Joi.object().keys({
+      name: Joi.string(),
+      level: Joi.string().valid("beginner", "intermediate", "advanced"),
+      description: Joi.string(),
+      numberOfSessions: Joi.number(),
+      startDate: Joi.date(),
+      endDate: Joi.date(),
+      startTime: Joi.string(),
+      endTime: Joi.string(),
+      daysOfWeek: Joi.array().items(
+        Joi.string().valid(
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        )
+      ),
+      teacher: Joi.string().length(24),
+      price: Joi.number(),
+    }),
+  },
 };
 
 module.exports = { validation, UsersValidator, CourseValidator };
