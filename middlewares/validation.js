@@ -102,6 +102,18 @@ const CourseValidator = {
       teacher: Joi.string().length(24),
       price: Joi.number(),
     }),
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
+  },
+  deleteCourse: {
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
   },
 };
 

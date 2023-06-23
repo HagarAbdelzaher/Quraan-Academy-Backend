@@ -95,9 +95,35 @@ const updateCourse = async (courseId, newData) => {
   }
   return updatedCourse;
 };
+const deleteCourse = async (courseId) => {
+  // check course is available
+  const course = await Course.findById(courseId);
+  if (!course) {
+    throw new BaseError("Course not Found", 404);
+  }
+  // check course didn't start
+  const courseCurrentStartDate = course.startDate;
+  const currentDate = Date.now();
+  if (currentDate > courseCurrentStartDate) {
+    throw new BaseError("Course in progress , cannot delete it ", 400);
+  }
+  // check that no students are enrolled in course
+
+  // delete the course and its sessions
+  const deletedCourse = await Course.findByIdAndDelete(courseId);
+  if (!deletedCourse) {
+    throw new BaseError("Course cannot be deleted", 500);
+  }
+  const deletedSessions = await Session.deleteMany({ courseID: courseId });
+  if (!deletedSessions) {
+    throw new BaseError("Course sessions Cannot be deleted", 500);
+  }
+  return deletedCourse;
+};
 module.exports = {
   addCourse,
   addCourseSessions,
   getCourses,
   updateCourse,
+  deleteCourse,
 };

@@ -8,8 +8,10 @@ const router = express.Router();
 // -> get courses // pagination //filter (teacher , level) //DONE
 //  By Admin
 // -> add course /course/ DONE
+// -> update course  ( description , teacher , level ) // DONE
+
 // -> delete course /course/ // with all of its sessions
-// -> update course  ( description , teacher , level )
+// DONE except ( deleting a course with students condition)
 // -> add extra session to course
 
 router.get(
@@ -88,4 +90,17 @@ router.patch(
     res.status(200).json(data);
   }
 );
+router.delete(
+  "/:id",
+  validation(CourseValidator.deleteCourse),
+  async (req, res, next) => {
+    const course = courseController.deleteCourse(req.params.id);
+    const [error, data] = await asycnWrapper(course);
+    if (error) {
+      return next(error);
+    }
+    res.status(200).json(data);
+  }
+);
+
 module.exports = router;
