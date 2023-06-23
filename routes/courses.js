@@ -46,10 +46,16 @@ router.post(
       price,
     });
     const [error, data] = await asycnWrapper(course);
+
     if (error) {
       return next(error);
     }
-    res.status(200).json({ course: data });
+    const sessions = courseController.addCourseSessions(data);
+    const [errorOfSessions, dataOfSessions] = await asycnWrapper(sessions);
+    if (errorOfSessions) {
+      return next(error);
+    }
+    res.status(200).json({ course: data, sessions: dataOfSessions });
   }
 );
 
