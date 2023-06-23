@@ -11,7 +11,7 @@ const sessionSchema = new Schema(
     },
     date: {
       type: Date,
-      unique: true,
+      required: true,
     },
     startTime: {
       type: String,

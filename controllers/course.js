@@ -36,7 +36,24 @@ const addCourseSessions = async (course) => {
   }
   return allSessions;
 };
+
+const getCourses = async (page, limit, teacher, level) => {
+  const conditions = {};
+  if (teacher) {
+    conditions.teacher = teacher;
+  }
+  if (level) {
+    conditions.level = level;
+  }
+  const skip = (page - 1) * limit;
+  const courses = await Course.find(conditions).skip(skip).limit(limit).exec();
+  if (!courses) {
+    throw new BaseError("No Courses found", 404);
+  }
+  return courses;
+};
 module.exports = {
   addCourse,
   addCourseSessions,
+  getCourses,
 };
