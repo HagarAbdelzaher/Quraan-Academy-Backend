@@ -116,5 +116,16 @@ const CourseValidator = {
       }),
   },
 };
-
-module.exports = { validation, UsersValidator, CourseValidator };
+const TeacherValidator = {
+  getTeachers: {
+    query: Joi.object().keys({
+      gender: Joi.string().valid("Male", "Female"),
+    }),
+  },
+};
+module.exports = {
+  validation,
+  UsersValidator,
+  CourseValidator,
+  TeacherValidator,
+};
