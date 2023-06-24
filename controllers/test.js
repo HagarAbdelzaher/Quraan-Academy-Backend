@@ -1,8 +1,8 @@
 function calculateCourseSessions(course) {
   //get course data // sessionsData //
   //loop
-  const { sessionsData, _id, startDate, endDate } = course;
-  const daysOfWeek = sessionsData.map((session) => session.day); // ["Sunday,"Tuesday"]
+  const { daysOfWeek, _id, startDate, endDate } = course;
+  // const daysOfWeek = sessionsData.map((session) => session.day); // ["Sunday,"Tuesday"]
   const result = [];
 
   // get all dates of sundays and tuesdays during the course duration

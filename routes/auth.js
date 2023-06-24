@@ -1,20 +1,18 @@
 /* eslint-disable consistent-return */
-const express = require('express');
-const { authController } = require('../controllers');
-const { asycnWrapper } = require('../libs');
-const { validation, UsersValidator } = require('../middlewares/validation');
-const { authAdmin } = require('../middlewares');
+const express = require("express");
+const { authController } = require("../controllers");
+const { asycnWrapper } = require("../libs");
+const { validation, UsersValidator } = require("../middlewares/validation");
+const { authAdmin } = require("../middlewares");
 
 const router = express.Router();
 
 router.post(
-  '/signUp/student',
+  "/signUp/student",
   validation(UsersValidator.signUp),
   async (req, res, next) => {
     const {
-      body: {
-        firstName, lastName, email, password, DOB, gender,
-      },
+      body: { firstName, lastName, email, password, DOB, gender },
     } = req;
     const student = authController.signUpStudent({
       firstName,
@@ -29,18 +27,16 @@ router.post(
       return next(error);
     }
     res.status(201).json({ sucess: true, data });
-  },
+  }
 );
 
 router.post(
-  '/signUp/Teacher',
+  "/signUp/Teacher",
   authAdmin,
   validation(UsersValidator.signUp),
   async (req, res, next) => {
     const {
-      body: {
-        firstName, lastName, email, password, DOB, gender,
-      },
+      body: { firstName, lastName, email, password, DOB, gender },
     } = req;
     const teacher = authController.signUpTeacher({
       firstName,
@@ -54,12 +50,12 @@ router.post(
     if (error) {
       return next(error);
     }
-    res.status(201).json({ sucess: true, data });
-  },
+    res.status(201).json({ success: true, data });
+  }
 );
 
 router.post(
-  '/login/student',
+  "/login/student",
   validation(UsersValidator.login),
   async (req, res, next) => {
     const {
@@ -71,11 +67,11 @@ router.post(
       return next(error);
     }
     res.status(200).json({ token: data.token });
-  },
+  }
 );
 
 router.post(
-  '/login/teacher',
+  "/login/teacher",
   validation(UsersValidator.login),
   async (req, res, next) => {
     const {
@@ -87,11 +83,11 @@ router.post(
       return next(error);
     }
     res.status(200).json({ token: data.token });
-  },
+  }
 );
 
 router.post(
-  '/login/admin',
+  "/login/admin",
   validation(UsersValidator.login),
   async (req, res, next) => {
     const {
@@ -103,7 +99,7 @@ router.post(
       return next(error);
     }
     res.status(200).json({ token: data.token });
-  },
+  }
 );
 
 module.exports = router;

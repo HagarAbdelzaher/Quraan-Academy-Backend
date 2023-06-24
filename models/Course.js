@@ -11,6 +11,7 @@ const courseSchema = new Schema(
     },
     level: {
       type: String,
+      enum: ["beginner", "intermediate", "advanced"],
       required: true,
     },
     description: {
@@ -58,7 +59,11 @@ const courseSchema = new Schema(
     teacher: {
       type: mongoose.Types.ObjectId,
       ref: "Teacher",
-      //   required: true,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
     },
   },
   {
