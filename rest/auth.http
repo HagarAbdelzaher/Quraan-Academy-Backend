@@ -1,5 +1,5 @@
-#@url = http://localhost:3000
-@url = https://quraan.onrender.com
+@url = http://localhost:3000
+# @url = https://quraan.onrender.com
 
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQ0YTYwNTY0NTkxNGIwYTAzZDYwYiIsImVtYWlsIjoiaGFzaGVtQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4NzQ0OTYzNSwiZXhwIjoxNjg4MDU0NDM1fQ.7RCUMAhRopfBJPWCH0pc7eKuvjvOdRGmoylxUrqAPRA
 
@@ -19,7 +19,7 @@ Content-Type: application/json
 
 {
     "email":"alffi@gmail.com",
-    "password":"hahsemhahsem"
+    "password":"hashemhashem1"
 }
 
 

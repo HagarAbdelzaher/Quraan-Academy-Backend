@@ -1,9 +1,9 @@
-const Joi = require("joi");
-const { BaseError } = require("../libs");
+const Joi = require('joi');
+const { BaseError } = require('../libs');
 
 const validation = (schema) => async (req, res, next) => {
   const validationErr = [];
-  ["body", "params", "query"].forEach((key) => {
+  ['body', 'params', 'query'].forEach((key) => {
     if (schema[key]) {
       const validations = schema[key].validate(req[key]);
       if (validations.error) {
@@ -15,8 +15,8 @@ const validation = (schema) => async (req, res, next) => {
     next(
       new BaseError(
         `validation error ${validationErr[0].details[0].message}`,
-        422
-      )
+        422,
+      ),
     );
   } else {
     next();
@@ -37,16 +37,17 @@ const UsersValidator = {
       firstName: Joi.string().required().min(3),
       lastName: Joi.string().required().min(3),
       DOB: Joi.date().required(),
-      gender: Joi.string().valid("Male", "Female").required(),
+      gender: Joi.string().valid('Male', 'Female').required(),
     }),
   },
 };
+
 const CourseValidator = {
   addCourse: {
     body: Joi.object().keys({
       name: Joi.string().required(),
       level: Joi.string()
-        .valid("beginner", "intermediate", "advanced")
+        .valid('beginner', 'intermediate', 'advanced')
         .required(),
       description: Joi.string().required(),
       numberOfSessions: Joi.number().required(),
@@ -57,14 +58,14 @@ const CourseValidator = {
       daysOfWeek: Joi.array()
         .items(
           Joi.string().valid(
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday"
-          )
+            'Sunday',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+          ),
         )
         .required(),
       teacher: Joi.string().required().length(24),
@@ -73,7 +74,7 @@ const CourseValidator = {
   },
   getCourses: {
     query: Joi.object().keys({
-      level: Joi.string().valid("beginner", "intermediate", "advanced"),
+      level: Joi.string().valid('beginner', 'intermediate', 'advanced'),
       teacher: Joi.string().length(24),
       page: Joi.number().min(1).max(1000),
     }),
@@ -81,7 +82,7 @@ const CourseValidator = {
   updateCourse: {
     body: Joi.object().keys({
       name: Joi.string(),
-      level: Joi.string().valid("beginner", "intermediate", "advanced"),
+      level: Joi.string().valid('beginner', 'intermediate', 'advanced'),
       description: Joi.string(),
       numberOfSessions: Joi.number(),
       startDate: Joi.date(),
@@ -90,14 +91,14 @@ const CourseValidator = {
       endTime: Joi.string(),
       daysOfWeek: Joi.array().items(
         Joi.string().valid(
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday"
-        )
+          'Sunday',
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+        ),
       ),
       teacher: Joi.string().length(24),
       price: Joi.number(),
@@ -116,14 +117,38 @@ const CourseValidator = {
       }),
   },
 };
+
 const TeacherValidator = {
   getTeachers: {
     query: Joi.object().keys({
-      gender: Joi.string().valid("Male", "Female"),
+      gender: Joi.string().valid('Male', 'Female'),
       page: Joi.number().min(1).max(1000),
     }),
   },
+  updateTeacher: {
+    body: Joi.object().keys({
+      email: Joi.string().email(),
+      password: Joi.string().min(8),
+      firstName: Joi.string().min(3),
+      lastName: Joi.string().min(3),
+      DOB: Joi.date(),
+      gender: Joi.string().valid('Male', 'Female'),
+    }),
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
+  },
+  deleteTeacher: {
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
+  },
 };
+
 module.exports = {
   validation,
   UsersValidator,

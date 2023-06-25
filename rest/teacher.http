@@ -1,0 +1,28 @@
+@url = http://localhost:3000
+#@url = https://quraan.onrender.com
+
+ @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVhOTQxNWYxMWI4MzdhNGRmYTJlYiIsImVtYWlsIjoiaGFzaGVtQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4NzcyNjMxOCwiZXhwIjoxNjg4MzMxMTE4fQ.oNwqmoTV-NP1qD2vomprhYVhRaifP204jqmmmCMb570
+
+### Get_All_Teacher
+get  {{url}}/teacher
+Content-Type: application/json
+
+
+
+
+### Update_Teacher
+PATCH {{url}}/teacher/6495aaa35f11b837a4dfa2f0
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "lastName":"ali",
+    "password":"hashemhashem1",
+    "gender":"Male"
+}
+
+
+### Delete_Teacher
+DELETE  {{url}}/teacher/6495af273974c39448da3ba5
+Content-Type: application/json
+Authorization: {{token}}
