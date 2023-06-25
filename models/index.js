@@ -5,6 +5,9 @@ const Course = require('./Course');
 const Session = require('./Session');
 const Question = require('./Question');
 const Category = require('./Category');
+const RecordedCourseCategory = require("./RecordedCourseCategory");
+const RecordedCourses = require("./RecordedCourses");
+const StudentRecordedCourses = require("./StudentRecordedCourses");
 
 module.exports = {
   Student,
@@ -14,4 +17,7 @@ module.exports = {
   Session,
   Question,
   Category,
+  RecordedCourseCategory,
+  RecordedCourses,
+  StudentRecordedCourses
 };
