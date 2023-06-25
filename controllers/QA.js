@@ -20,29 +20,34 @@ const getCategories = () => Category.find({});
 const askQuestion = async (question, studentID, categoryID) => {
   if (!studentID) throw new BaseError('un-Authorized', 401);
   if (!categoryID) throw new BaseError('No category specified!', 400);
-  const newQuestion = await Question.create({ question, studentID, categoryID })
-  console.log(newQuestion);
+  const newQuestion = await Question.create({ question, studentID, categoryID });
   if (!newQuestion) throw new BaseError('failed to add question!', 400);
   return newQuestion;
-}
+};
 const updateQuestion = async (id, question, studentID, categoryID) => {
   if (!studentID) throw new BaseError('un-Authorized', 401);
+  const questionAnswered = await Question.findById(id);
+  
+  if (questionAnswered.answer)
+    throw new BaseError('Cannot update an answered question!', 400);
+
   const studentQuestion = await Question.findOneAndUpdate(
     { _id: id, studentID },
     { question, categoryID },
-    { new: true })
+    { new: true },
+  );
   if (!studentQuestion) throw new BaseError('failed to update question', 400);
   return studentQuestion;
-}
+};
 
 const answerQuestion = async (id, answer, teacherID) => {
   if (!teacherID) throw new BaseError('un-Authorized', 401);
   const question = await Question.findById(id);
-  if(question.answer && !question.teacherID.equals(teacherID)) throw new BaseError('un-Authorized', 401);
+  if (question.answer && !question.teacherID.equals(teacherID)) throw new BaseError('un-Authorized', 401);
   // add new answer or update your answer
   const newAnswer = await Question.findByIdAndUpdate(id, { answer, teacherID }, { new: true });
   return newAnswer;
-}
+};
 
 module.exports = {
   addCategory,
@@ -50,5 +55,5 @@ module.exports = {
   getCategories,
   askQuestion,
   updateQuestion,
-  answerQuestion
+  answerQuestion,
 };

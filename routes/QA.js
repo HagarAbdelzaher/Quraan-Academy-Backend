@@ -2,6 +2,7 @@ const express = require('express');
 const { authAdmin, authStudent, authTeacher } = require('../middlewares');
 const { QAController } = require('../controllers');
 const { asycnWrapper } = require('../libs');
+const { validation, CategoryValidator, QuestionValidator } = require('../middlewares/validation');
 
 const router = express.Router();
 
@@ -16,6 +17,7 @@ const router = express.Router();
 
 router.post(
   '/category',
+  validation(CategoryValidator.addCategory),
   authAdmin,
   async (req, res, next) => {
     const { body: { name } } = req;
@@ -23,7 +25,7 @@ router.post(
     const [err, data] = await asycnWrapper(category);
     if (err) return next(err);
     res.status(201).json({ message: 'success', category: data });
-  }
+  },
 );
 router.delete(
   '/category/:id',
@@ -34,7 +36,7 @@ router.delete(
     const [err, data] = await asycnWrapper(category);
     if (err) return next(err);
     res.status(200).json({ message: 'success', deletedCategory: data });
-  }
+  },
 );
 router.get(
   '/category',
@@ -43,47 +45,53 @@ router.get(
     const [err, data] = await asycnWrapper(category);
     if (err) return next(err);
     res.status(200).json({ message: 'success', data });
-  }
+  },
 );
 router.post(
   '/ask',
+  validation(QuestionValidator.askQuestion),
   authStudent,
   async (req, res, next) => {
     const { body: { question, categoryID } } = req;
     const studentID = req.student._id;
-    const newQuestion = QAController.askQuestion(question, studentID, categoryID)
+    const newQuestion = QAController.askQuestion(question, studentID, categoryID);
     const [err, data] = await asycnWrapper(newQuestion);
     if (err) return next(err);
     res.status(201).json({ message: 'success', data });
-  }
+  },
 );
 router.patch(
   '/:id',
+  validation(QuestionValidator.updateQuestion),
   authStudent,
   async (req, res, next) => {
-    const { body: { question, categoryID },
-      params: { id } } = req;
+    const {
+      body: { question, categoryID },
+      params: { id },
+    } = req;
     const studentID = req.student._id;
-    const updateQuestion = QAController.updateQuestion(id, question, studentID, categoryID)
+    const updateQuestion = QAController.updateQuestion(id, question, studentID, categoryID);
     const [err, data] = await asycnWrapper(updateQuestion);
     if (err) return next(err);
     res.status(201).json({ message: 'success', data });
-  }
+  },
 );
 
 router.patch(
   '/:id/answer',
+  validation(QuestionValidator.answerQuestion),
   authTeacher,
   async (req, res, next) => {
-    const { body: { answer },
-      params: { id }
+    const {
+      body: { answer },
+      params: { id },
     } = req;
     const teacherID = req.teacher._id;
     const newAnswer = QAController.answerQuestion(id, answer, teacherID);
     const [err, data] = await asycnWrapper(newAnswer);
     if (err) return next(err);
-    res.status(200).json({ message: 'success', data })
-  }
+    res.status(200).json({ message: 'success', data });
+  },
 );
 
 module.exports = router;

@@ -3,10 +3,17 @@ const mongoose = require('mongoose');
 const QuestionSchema = new mongoose.Schema({
   question: {
     type: String,
+    trim: true,
+    minLength: 5,
+    maxLength: 255,
     required: true,
   },
   answer: {
     type: String,
+    trim: true,
+    minLength: 5,
+    maxLength: 255,
+    trim: true,
   },
   studentID: {
     type: mongoose.Types.ObjectId,

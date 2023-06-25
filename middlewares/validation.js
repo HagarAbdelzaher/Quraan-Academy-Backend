@@ -144,10 +144,40 @@ const RecordedCoursesValidator = {
   }
 };
 
+const CategoryValidator = {
+  addCategory: {
+    body: Joi.object().keys({
+      name: Joi.string().trim().min(2).max(30).required(),
+    }),
+  }
+}
+
+const QuestionValidator = {
+  askQuestion: {
+    body: Joi.object().keys({
+      question: Joi.string().trim().min(5).max(255).required(),
+      categoryID: Joi.string().length(24).required(),
+    }),
+  },
+  updateQuestion: {
+    body: Joi.object().keys({
+      question: Joi.string().trim().min(5).max(255),
+      categoryID: Joi.string().length(24),
+    }),
+  },
+  answerQuestion: {
+    body: Joi.object().keys({
+      answer: Joi.string().trim().min(5).max(255).required(),
+    }),
+  }
+}
+
 module.exports = {
   validation,
   UsersValidator,
   CourseValidator,
   TeacherValidator,
-  RecordedCoursesValidator
+  RecordedCoursesValidator,
+  CategoryValidator,
+  QuestionValidator,
 };
