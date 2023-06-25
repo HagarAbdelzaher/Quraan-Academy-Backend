@@ -129,17 +129,64 @@ const RecordedCoursesValidator = {
   addRecordedCourse: {
     body: Joi.object().keys({
       name: Joi.string().trim().min(3).max(25).required(),
-      price: Joi.number().trim().required(),
-      numberOfChapters: Joi.number().trim().required(),
+      price: Joi.number().min(1).required(),
+      numberOfChapters: Joi.number().min(1).required(),
       category: Joi.string().trim().required().length(24),
     }),
   },
   updateRecordeCourses: {
     body: Joi.object().keys({
+      name: Joi.string().trim().min(3).max(25),
+      price: Joi.number().min(1),
+      numberOfChapters: Joi.number().min(1),
+      category: Joi.string().trim().length(24),
+    }),
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+    })
+  },
+  getAllRecordedCourses: {
+    query: Joi.object().required().keys({
+      page: Joi.number().required().min(1).max(1000),
+    }),
+  },
+  deleteRecordedCourse: {
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+    })
+  }
+};
+
+const RecordedCourseCategoryValidator = {
+  createCategory: {
+    body: Joi.object().keys({
       name: Joi.string().trim().min(3).max(25).required(),
-      price: Joi.number().trim().required(),
-      numberOfChapters: Joi.number().trim().required(),
-      category: Joi.string().trim().required().length(24),
+    }),
+  },
+  getAllCategories: {
+    query: Joi.object().required().keys({
+      page: Joi.number().required().min(1).max(1000),
+    }),
+  },
+  updateCategory: {
+    body: Joi.object().keys({
+      name: Joi.string().trim().min(3).max(25),
+    }),
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+    }),
+  },
+  deleteCategory: {
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+    }),
+  },
+  getRecordedCoursesByCategory: {
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+    }),
+    query: Joi.object().required().keys({
+      page: Joi.number().required().min(1).max(1000),
     }),
   }
 };
@@ -149,5 +196,6 @@ module.exports = {
   UsersValidator,
   CourseValidator,
   TeacherValidator,
-  RecordedCoursesValidator
+  RecordedCoursesValidator,
+  RecordedCourseCategoryValidator
 };
