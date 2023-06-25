@@ -120,6 +120,7 @@ const TeacherValidator = {
   getTeachers: {
     query: Joi.object().keys({
       gender: Joi.string().valid("Male", "Female"),
+      page: Joi.number().min(1).max(1000),
     }),
   },
 };
