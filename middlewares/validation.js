@@ -124,9 +124,30 @@ const TeacherValidator = {
     }),
   },
 };
+
+const RecordedCoursesValidator = {
+  addRecordedCourse: {
+    body: Joi.object().keys({
+      name: Joi.string().trim().min(3).max(25).required(),
+      price: Joi.number().trim().required(),
+      numberOfChapters: Joi.number().trim().required(),
+      category: Joi.string().trim().required().length(24),
+    }),
+  },
+  updateRecordeCourses: {
+    body: Joi.object().keys({
+      name: Joi.string().trim().min(3).max(25).required(),
+      price: Joi.number().trim().required(),
+      numberOfChapters: Joi.number().trim().required(),
+      category: Joi.string().trim().required().length(24),
+    }),
+  }
+};
+
 module.exports = {
   validation,
   UsersValidator,
   CourseValidator,
   TeacherValidator,
+  RecordedCoursesValidator
 };
