@@ -37,9 +37,6 @@ const updateRecordedCourseCategory = async (id, data) => {
     if (!recordedCourseCategory) {
         throw new BaseError("Can't update recorded course category", 500);
     }
-    if (!recordedCourseCategory.isModified()) {
-        throw new BaseError("No changes were made to the category", 400);
-    }
     return recordedCourseCategory;
 }
 
