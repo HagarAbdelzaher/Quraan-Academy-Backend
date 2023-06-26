@@ -152,7 +152,8 @@ const TeacherValidator = {
 const RecordedCoursesValidator = {
   addRecordedCourse: {
     body: Joi.object().keys({
-      name: Joi.string().trim().min(3).max(25).required(),
+      name: Joi.string().trim().min(3).max(25)
+        .required(),
       price: Joi.number().min(1).required(),
       numberOfChapters: Joi.number().min(1).required(),
       category: Joi.string().trim().required().length(24),
@@ -167,7 +168,7 @@ const RecordedCoursesValidator = {
     }),
     params: Joi.object().required().keys({
       id: Joi.string().length(24).required(),
-    })
+    }),
   },
   getAllRecordedCourses: {
     query: Joi.object().required().keys({
@@ -177,14 +178,15 @@ const RecordedCoursesValidator = {
   deleteRecordedCourse: {
     params: Joi.object().required().keys({
       id: Joi.string().length(24).required(),
-    })
-  }
+    }),
+  },
 };
 
 const RecordedCourseCategoryValidator = {
   createCategory: {
     body: Joi.object().keys({
-      name: Joi.string().trim().min(3).max(25).required(),
+      name: Joi.string().trim().min(3).max(25)
+        .required(),
     }),
   },
   getAllCategories: {
@@ -218,15 +220,17 @@ const RecordedCourseCategoryValidator = {
 const CategoryValidator = {
   addCategory: {
     body: Joi.object().keys({
-      name: Joi.string().trim().min(2).max(30).required(),
+      name: Joi.string().trim().min(2).max(30)
+        .required(),
     }),
-  }
-}
+  },
+};
 
 const QuestionValidator = {
   askQuestion: {
     body: Joi.object().keys({
-      question: Joi.string().trim().min(5).max(255).required(),
+      question: Joi.string().trim().min(5).max(255)
+        .required(),
       categoryID: Joi.string().length(24).required(),
     }),
   },
@@ -238,10 +242,11 @@ const QuestionValidator = {
   },
   answerQuestion: {
     body: Joi.object().keys({
-      answer: Joi.string().trim().min(5).max(255).required(),
+      answer: Joi.string().trim().min(5).max(255)
+        .required(),
     }),
-  }
-}
+  },
+};
 
 module.exports = {
   validation,

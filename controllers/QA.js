@@ -27,9 +27,8 @@ const askQuestion = async (question, studentID, categoryID) => {
 const updateQuestion = async (id, question, studentID, categoryID) => {
   if (!studentID) throw new BaseError('un-Authorized', 401);
   const questionAnswered = await Question.findById(id);
-  
-  if (questionAnswered.answer)
-    throw new BaseError('Cannot update an answered question!', 400);
+
+  if (questionAnswered.answer) { throw new BaseError('Cannot update an answered question!', 400); }
 
   const studentQuestion = await Question.findOneAndUpdate(
     { _id: id, studentID },
@@ -41,12 +40,60 @@ const updateQuestion = async (id, question, studentID, categoryID) => {
 };
 
 const answerQuestion = async (id, answer, teacherID) => {
-  if (!teacherID) throw new BaseError('un-Authorized', 401);
+  if (!teacherID) { throw new BaseError('un-Authorized', 401); }
+
   const question = await Question.findById(id);
-  if (question.answer && !question.teacherID.equals(teacherID)) throw new BaseError('un-Authorized', 401);
+  if (question.answer && !question.teacherID.equals(teacherID)) { throw new BaseError('un-Authorized', 401); }
+
   // add new answer or update your answer
   const newAnswer = await Question.findByIdAndUpdate(id, { answer, teacherID }, { new: true });
   return newAnswer;
+};
+
+const getAllQuestions = async (page, limit, filter) => {
+  const query = {};
+
+  if (filter.categoryID) {
+    query.categoryID = filter.categoryID;
+  }
+  if (filter.teacherID) {
+    query.teacherID = filter.teacherID;
+  }
+
+  const questions = await Question.paginate(
+    query,
+    {
+      page: page || 1,
+      limit: limit > 0 && limit < 100 ? limit : 20,
+      populate: [{ path: 'studentID', select: 'firstName lastName' },
+        { path: 'teacherID', select: 'firstName lastName' },
+        { path: 'categoryID', select: 'name' },
+      ],
+    },
+  );
+  return questions;
+};
+
+const getUserQuestions = async (page, limit, filter) => {
+  if (!filter.studentID) throw new BaseError('Un-Authorized', 401);
+
+  const query = { studentID: filter.studentID };
+
+  if (filter.categoryID) {
+    query.categoryID = filter.categoryID;
+  }
+  if (filter.teacherID) {
+    query.teacherID = filter.teacherID;
+  }
+
+  const questions = await Question.paginate(query, {
+    page: page || 1,
+    limit: limit > 0 && limit < 100 ? limit : 20,
+    populate: [{ path: 'teacherID', select: 'firstName lastName' },
+      { path: 'categoryID', select: 'name' }],
+  });
+
+  return questions;
 };
 
 module.exports = {
@@ -56,4 +103,6 @@ module.exports = {
   askQuestion,
   updateQuestion,
   answerQuestion,
+  getAllQuestions,
+  getUserQuestions,
 };
