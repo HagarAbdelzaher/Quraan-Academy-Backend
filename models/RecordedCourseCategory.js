@@ -8,6 +8,7 @@ const recordedCourseCategorySchema = new Schema(
     {
         name: {
             type: String,
+            unique: true,
             required: true,
             minlength: 3,
             maxlength: 25,
