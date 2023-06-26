@@ -9,6 +9,14 @@ const addRecordedCourse = async (data) => {
     return recordedCourse;
 }
 
+const getRecordedCourseById = async (id) => {
+    const recordedCourse = await RecordedCourses.findById(id);
+    if (!recordedCourse) {
+        throw new BaseError("course not found", 404);
+    }
+    return recordedCourse;
+}
+
 const getAllRecordedCourses = async (page, limit) => {
     const skip = (page - 1) * limit;
     const recordedCourses = await RecordedCourses.find().skip(skip).limit(limit);
@@ -19,19 +27,13 @@ const getAllRecordedCourses = async (page, limit) => {
 }
 
 const updateRecordedCourse = async (id, data) => {
-    const recordedCourse = await RecordedCourses.findById(id);
-    if (!recordedCourse) {
-        throw new BaseError("course not found", 404);
-    }
+    await getRecordedCourseById(id);
     const updatedRecordedCourse = await RecordedCourses.findByIdAndUpdate(id, data, { new: true });
     return updatedRecordedCourse;
 }
 
 const deleteRecordedCourse = async (id) => {
-    const recordedCourse = await RecordedCourses.findById(id);
-    if (!recordedCourse) {
-        throw new BaseError("course not found", 404);
-    }
+    await getRecordedCourseById(id);
     const enrolledStudentInRecordedCourse = await StudentRecordedCourses.findOne({ courseID: id });
     if (enrolledStudentInRecordedCourse) {
         throw new BaseError("Cannot delete recorded course with enrolled students", 400);
@@ -42,6 +44,7 @@ const deleteRecordedCourse = async (id) => {
 
 module.exports = {
     addRecordedCourse,
+    getRecordedCourseById, 
     getAllRecordedCourses,
     updateRecordedCourse,
     deleteRecordedCourse

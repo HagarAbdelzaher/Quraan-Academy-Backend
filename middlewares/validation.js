@@ -167,6 +167,11 @@ const RecordedCoursesValidator = {
       category: Joi.string().trim().required().length(24),
     }),
   },
+  getRecordedCourseById: {
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+    }),
+  },
   updateRecordeCourses: {
     body: Joi.object().keys({
       name: Joi.string().trim().min(3).max(25),
@@ -200,6 +205,11 @@ const RecordedCourseCategoryValidator = {
   createCategory: {
     body: Joi.object().keys({
       name: Joi.string().trim().min(3).max(25).required(),
+    }),
+  },
+  getRecordedCourseCategoryById: {
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
     }),
   },
   getAllCategories: {
