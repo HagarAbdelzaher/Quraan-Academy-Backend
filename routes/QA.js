@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const express = require('express');
 const { authAdmin, authStudent, authTeacher } = require('../middlewares');
 const { QAController } = require('../controllers');
@@ -6,14 +7,8 @@ const { validation, CategoryValidator, QuestionValidator } = require('../middlew
 
 const router = express.Router();
 
-// add category by admin --
-// delete category by admin --
-// get categories --
-// add and update question by student --
 // delete question by student and admin
-// add and update answer by teacher --
 // delete answer by teacher and admin
-// get all questions (pagination)
 
 router.post(
   '/category',
@@ -94,4 +89,39 @@ router.patch(
   },
 );
 
+router.get(
+  '/',
+  async (req, res, next) => {
+    const {
+      query: {
+        page, limit, categoryID, teacherID,
+      },
+    } = req;
+    const questions = QAController.getAllQuestions(page, limit, { categoryID, teacherID });
+    const [err, data] = await asycnWrapper(questions);
+    if (err) return next(err);
+    res.status(200).json({ message: 'success', data });
+  },
+);
+
+router.get(
+  '/student',
+  authStudent,
+  async (req, res, next) => {
+    const {
+      query: {
+        page, limit, categoryID, teacherID,
+      },
+    } = req;
+    const studentID = req.student._id;
+    const questions = QAController.getUserQuestions(
+      page,
+      limit,
+      { studentID, categoryID, teacherID },
+    );
+    const [err, data] = await asycnWrapper(questions);
+    if (err) return next(err);
+    res.status(200).json({ message: 'success', data });
+  },
+);
 module.exports = router;

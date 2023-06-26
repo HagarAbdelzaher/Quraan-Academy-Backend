@@ -130,10 +130,19 @@ const deleteCourse = async (courseId) => {
   }
   return deletedCourse;
 };
+
+const getCourseById = async (id) => {
+  const course = await Course.findById(id);
+  if (!course) throw new BaseError('author not found', 400);
+
+
+  return  course;
+}
 module.exports = {
   addCourse,
   addCourseSessions,
   getCourses,
   updateCourse,
   deleteCourse,
+  getCourseById
 };
