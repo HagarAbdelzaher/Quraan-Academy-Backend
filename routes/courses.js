@@ -102,5 +102,12 @@ router.delete(
     res.status(200).json(data);
   }
 );
+router.get('/:id', 
+async (req, res, next) => {
+  const { id } = req.params;
+  const [err, data] = await asycnWrapper(courseController.getCourseById(id));
+  if (err) return next(err);
+  res.status(200).json({ message: 'success', course: data });
+})
 
 module.exports = router;
