@@ -1,6 +1,5 @@
 const { Session } = require("../models");
 const { BaseError } = require("../libs");
-const { sortBy } = require("lodash");
 
 const getSessions = async (month, year) => {
   const currentDate = new Date();
