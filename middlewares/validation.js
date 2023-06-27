@@ -79,6 +79,11 @@ const CourseValidator = {
       page: Joi.number().min(1).max(1000),
     }),
   },
+  idParam: {
+    params: Joi.object().required().keys({
+        id: Joi.string().length(24).required(),
+    }),
+},
   updateCourse: {
     body: Joi.object().keys({
       name: Joi.string(),
