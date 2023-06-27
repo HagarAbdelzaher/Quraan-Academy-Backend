@@ -8,6 +8,7 @@ const Category = require('./Category');
 const RecordedCourseCategory = require("./RecordedCourseCategory");
 const RecordedCourses = require("./RecordedCourses");
 const StudentRecordedCourses = require("./StudentRecordedCourses");
+const Chapter = require("./Chapter");
 
 module.exports = {
   Student,
@@ -19,5 +20,6 @@ module.exports = {
   Category,
   RecordedCourseCategory,
   RecordedCourses,
-  StudentRecordedCourses
+  StudentRecordedCourses,
+  Chapter
 };
