@@ -64,8 +64,8 @@ router.get(
         null,
         { headers },
       );
-
       const accessToken = response.data.access_token;
+      console.log(accessToken);
       const data = await createMeeting(accessToken);
       res.status(200).json(data.data);
     } catch (error) {

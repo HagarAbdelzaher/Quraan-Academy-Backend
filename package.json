@@ -26,6 +26,7 @@
     "lodash": "^4.17.21",
     "mongoose": "^7.2.4",
     "mongoose-paginate-v2": "^1.7.1",
-    "query-string": "^8.1.0"
+    "query-string": "^8.1.0",
+    "stripe": "^12.10.0"
   }
 }

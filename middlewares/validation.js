@@ -181,7 +181,6 @@ const RecordedCoursesValidator = {
     body: Joi.object().keys({
       name: Joi.string().trim().min(3).max(25),
       price: Joi.number().min(1),
-      numberOfChapters: Joi.number().min(1),
       category: Joi.string().trim().length(24),
     }),
     params: Joi.object()
@@ -283,6 +282,46 @@ const QuestionValidator = {
   },
 };
 
+const chapterValidator = {
+  addChapter: {
+    body: Joi.array().required().items(
+      Joi.object().keys({
+        title: Joi.string().min(3).required(),
+        description: Joi.string().min(10).required(),
+        media: Joi.string().required()
+      })
+    ),
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+    }),
+  },
+  getChapterById: {
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+    }),
+  },
+  deleteChapter: {
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+    }),
+  },
+  updateChapter: {
+    body: Joi.object().keys({
+      title: Joi.string(),
+      description: Joi.string().min(10),
+      media: Joi.string()
+    }),
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+    }),
+  },
+  getAllChapters: {
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+    }),
+  },
+};
+
 const StudentValidator = {
   getStudents: {
     query: Joi.object().keys({
@@ -308,12 +347,17 @@ const StudentValidator = {
         id: Joi.string().length(24).required(),
       }),
   },
-  idParam: {
-    params: Joi.object().required().keys({
-        id: Joi.string().length(24).required(),
-    }),
-}
+  enrollCourse: {
+    idParam: {
+      params: Joi.object().required().keys({
+          id: Joi.string().length(24).required(),
+      }),
+  }
+  },
 };
+
+
+
 module.exports = {
   validation,
   UsersValidator,
@@ -323,6 +367,7 @@ module.exports = {
   RecordedCourseCategoryValidator,
   CategoryValidator,
   QuestionValidator,
+  chapterValidator,
   SessionValidator,
   StudentValidator,
 };

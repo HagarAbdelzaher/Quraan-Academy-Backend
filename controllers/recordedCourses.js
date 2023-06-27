@@ -1,4 +1,4 @@
-const { RecordedCourses, StudentRecordedCourses } = require("../models");
+const { RecordedCourses, StudentRecordedCourses, Chapter } = require("../models");
 const { BaseError } = require("../libs");
 
 const addRecordedCourse = async (data) => {
@@ -39,12 +39,16 @@ const deleteRecordedCourse = async (id) => {
         throw new BaseError("Cannot delete recorded course with enrolled students", 400);
     }
     const deletedRecordedCourse = await RecordedCourses.findByIdAndDelete(id);
+    if (!deletedChapter) {
+        throw new BaseError("Chapter cannot be deleted", 500);
+    }
+    await Chapter.deleteMany({ recordedCourse: id });
     return deletedRecordedCourse;
 }
 
 module.exports = {
     addRecordedCourse,
-    getRecordedCourseById, 
+    getRecordedCourseById,
     getAllRecordedCourses,
     updateRecordedCourse,
     deleteRecordedCourse
