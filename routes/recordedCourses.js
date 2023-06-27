@@ -30,6 +30,26 @@ router.post(
 );
 
 /**
+ * @DESC User can get recorded course details
+ * @ROUTE GET /admin/recordedCourses/:id/details
+ * @visibility public
+*/
+
+router.get(
+    "/:id/details",
+    validation(RecordedCoursesValidator.getRecordedCourseById),
+    async (req, res, next) => {
+        const { id } = req.params;
+        const RecordedCourse = recordedCourses.getRecordedCourseById(id);
+        const [error, data] = await asycnWrapper(RecordedCourse);
+        if (error) {
+            return next(error);
+        }
+        res.status(200).json(data);
+    }
+)
+
+/**
  * @DESC User can get all recorded course paginated
  * @ROUTE GET /admin/recordedCourses/getAllRecordedCourses
  * @visibility public

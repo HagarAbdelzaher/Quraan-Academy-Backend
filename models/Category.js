@@ -7,6 +7,7 @@ const CategorySchema = new mongoose.Schema({
     minLength: 2,
     maxLength: 30,
     trim: true,
+    unique: true,
   },
 }, {
   timestamps: true,
