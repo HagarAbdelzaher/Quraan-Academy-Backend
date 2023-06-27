@@ -1,0 +1,10 @@
+@url = http://localhost:3000
+#@url = https://quraan.onrender.com
+
+ @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTU4OWJkNDQ2MDA5MzE3ZDMyOTEzMyIsImVtYWlsIjoiYWJkZWxyYWhtYW5AZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2ODc3OTA4NjcsImV4cCI6MTY4ODM5NTY2N30.-4Az--JmKTMGXYlty1yaVnY7zeuElkpj0UQSeDf79Dk
+
+### Get_All_Teacher
+get  {{url}}/student/enroll-course/649609481b4c8685971b05f6
+Content-Type: application/json
+Authorization: {{token}}
+

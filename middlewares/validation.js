@@ -248,6 +248,17 @@ const QuestionValidator = {
   },
 };
 
+const StudentValidator = {
+  enrollCourse: {
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
+  },
+};
+
+
 module.exports = {
   validation,
   UsersValidator,
@@ -257,4 +268,5 @@ module.exports = {
   RecordedCourseCategoryValidator,
   CategoryValidator,
   QuestionValidator,
+  StudentValidator,
 };

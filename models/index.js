@@ -8,6 +8,8 @@ const Category = require('./Category');
 const RecordedCourseCategory = require("./RecordedCourseCategory");
 const RecordedCourses = require("./RecordedCourses");
 const StudentRecordedCourses = require("./StudentRecordedCourses");
+const PaymentToken = require('./PaymentToken');
+const StudentCourses = require('./StudentCourses');
 
 module.exports = {
   Student,
@@ -19,5 +21,7 @@ module.exports = {
   Category,
   RecordedCourseCategory,
   RecordedCourses,
-  StudentRecordedCourses
+  StudentRecordedCourses,
+  PaymentToken,
+  StudentCourses,
 };
