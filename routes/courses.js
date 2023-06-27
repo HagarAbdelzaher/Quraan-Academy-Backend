@@ -103,11 +103,12 @@ router.delete(
   }
 );
 router.get('/:id', 
+validation(CourseValidator.idParam),
 async (req, res, next) => {
   const { id } = req.params;
   const [err, data] = await asycnWrapper(courseController.getCourseById(id));
   if (err) return next(err);
-  res.status(200).json({ message: 'success', course: data });
-})
+  res.status(200).json( data );
+});
 
 module.exports = router;
