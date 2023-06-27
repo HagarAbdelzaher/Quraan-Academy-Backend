@@ -287,6 +287,7 @@ const StudentValidator = {
   getStudents: {
     query: Joi.object().keys({
       gender: Joi.string().valid("Male", "Female"),
+      DOB: Joi.date(),
       page: Joi.number().min(1).max(1000),
     }),
   },
@@ -298,6 +299,8 @@ const StudentValidator = {
       lastName: Joi.string().min(3),
       DOB: Joi.date(),
       gender: Joi.string().valid("Male", "Female"),
+      level: Joi.string(),
+      
     }),
     params: Joi.object()
       .required()

@@ -109,6 +109,6 @@ async (req, res, next) => {
   const [err, data] = await asycnWrapper(courseController.getCourseById(id));
   if (err) return next(err);
   res.status(200).json( data );
-})
+});
 
 module.exports = router;
