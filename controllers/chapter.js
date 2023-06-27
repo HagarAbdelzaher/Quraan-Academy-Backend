@@ -36,6 +36,13 @@ const deleteChapter = async (id) => {
     if (!deletedChapter) {
         throw new BaseError("Chapter cannot be deleted", 500);
     }
+    const updateRecordedCourse = await RecordedCourses.findByIdAndUpdate(
+        deletedChapter.recordedCourse,
+        { $inc: { numberOfChapters: -1 } }
+    );
+    if(!updateRecordedCourse){
+        throw new BaseError("Cannot update recorded course", 500);
+    }
     return deletedChapter;
 }
 

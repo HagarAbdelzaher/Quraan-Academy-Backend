@@ -101,9 +101,9 @@ router.patch(
     validation(RecordedCoursesValidator.updateRecordeCourses),
     async (req, res, next) => {
         const { id } = req.params;
-        const { name, price, numberOfChapters, category } = req.body;
+        const { name, price, category } = req.body;
         const recordedCourse = recordedCourses.updateRecordedCourse(id, {
-            name, price, numberOfChapters, category
+            name, price, category
         });
         const [error, data] = await asycnWrapper(recordedCourse);
         if (error) {

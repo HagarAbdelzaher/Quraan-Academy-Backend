@@ -181,7 +181,6 @@ const RecordedCoursesValidator = {
     body: Joi.object().keys({
       name: Joi.string().trim().min(3).max(25),
       price: Joi.number().min(1),
-      numberOfChapters: Joi.number().min(1),
       category: Joi.string().trim().length(24),
     }),
     params: Joi.object()
