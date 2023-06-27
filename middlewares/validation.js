@@ -283,6 +283,34 @@ const QuestionValidator = {
   },
 };
 
+const StudentValidator = {
+  getStudents: {
+    query: Joi.object().keys({
+      gender: Joi.string().valid("Male", "Female"),
+      page: Joi.number().min(1).max(1000),
+    }),
+  },
+  updateStudent: {
+    body: Joi.object().keys({
+      email: Joi.string().email(),
+      password: Joi.string().min(8),
+      firstName: Joi.string().min(3),
+      lastName: Joi.string().min(3),
+      DOB: Joi.date(),
+      gender: Joi.string().valid("Male", "Female"),
+    }),
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
+  },
+  idParam: {
+    params: Joi.object().required().keys({
+        id: Joi.string().length(24).required(),
+    }),
+}
+};
 module.exports = {
   validation,
   UsersValidator,
@@ -293,4 +321,5 @@ module.exports = {
   CategoryValidator,
   QuestionValidator,
   SessionValidator,
+  StudentValidator,
 };
