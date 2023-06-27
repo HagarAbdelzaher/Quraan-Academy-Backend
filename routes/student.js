@@ -49,7 +49,24 @@ async (req, res, next) => {
   const [err, data] = await asycnWrapper(studentController.getStudentById(id));
   if (err) return next(err);
   res.status(200).json( data );
-})
+});
+
+// router.delete('/course/:id', validation(StudentValidator.idParam), async (req, res, next) => {
+//   const { params: { id } } = req;
+//   const deleteCourse = studentCoursesController.deleteCourse({ studentId: req.student._id, courseId: id});
+//   const [error, data] = await asycnWrapper(deleteCourse );
+//   if(error) next(error);
+//   res.status(200).json({data});
+// });
+
+// router.get('/courses/', async (req, res, next) => {
+//   const { query: { studentId, page, limit} } = req;
+//   const Courses= studentCoursesController.getUserCourses(studentId,req.user.id,page,limit);
+//   const [error, data] = await asycnWrapper(Courses);
+//   if(error) next(error);
+//   res.status(200).json({data});
+// });
+
 
 
 module.exports = router;
