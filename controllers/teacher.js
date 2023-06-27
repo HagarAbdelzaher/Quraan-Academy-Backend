@@ -6,6 +6,7 @@ const getTeachers = async (page, limit, gender) => {
   if (gender) {
     conditions.gender = gender;
   }
+  
   const skip = (page - 1) * limit;
   const teachers = await Teacher.find(conditions)
     .skip(skip)

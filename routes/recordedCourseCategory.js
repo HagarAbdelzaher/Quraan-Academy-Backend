@@ -7,31 +7,31 @@ const { validation, RecordedCourseCategoryValidator } = require("../middlewares/
 
 const router = express.Router();
 
+
 /**
- * @DESC Admin can add a recorded course category
- * @ROUTE POST /admin/recordedCourseCategory/add
- * @visibility private
+ * @DESC User can get recorded course category details
+ * @ROUTE GET /recordedCourseCategory/:id/details
+ * @visibility public
 */
 
-router.post(
-    "/add",
-    validation(RecordedCourseCategoryValidator.createCategory),
+router.get(
+    "/:id/details",
+    validation(RecordedCourseCategoryValidator.getRecordedCourseCategoryById),
     async (req, res, next) => {
-        const { name } = req.body;
-        const createdCategory = recordedCourseCategory.createRecordedCourseCategory({
-            name
-        });
-        const [error, data] = await asycnWrapper(createdCategory);
+        const { id } = req.params;
+        const category = recordedCourseCategory.getRecordedCourseCategoryById(id);
+        const [error, data] = await asycnWrapper(category);
         if (error) {
             return next(error);
         }
-        res.status(201).json(data);
+        res.status(200).json(data);
     }
-);
+)
+
 
 /**
  * @DESC User can get all recorded course category paginated
- * @ROUTE GET /admin/recordedCourseCategory/getAllRecordedCourseCategory
+ * @ROUTE GET /recordedCourseCategory/getAllRecordedCourseCategory
  * @visibility public
 */
 
@@ -52,7 +52,7 @@ router.get(
 
 /**
  * @DESC User can get all recorded course by category paginated
- * @ROUTE GET /admin/recordedCourseCategory/:id/getRecordedCourses
+ * @ROUTE GET /recordedCourseCategory/:id/getRecordedCourses
  * @visibility public
 */
 
@@ -71,49 +71,5 @@ router.get(
         res.status(200).json(data);
     }
 )
-
-/**
- * @DESC Admin can delete a recorded course category
- * @ROUTE DELETE /admin/recordedCourseCategory/:id
- * @visibility private
-*/
-
-router.delete(
-    "/:id",
-    validation(RecordedCourseCategoryValidator.deleteCategory),
-    async (req, res, next) => {
-        const { id } = req.params;
-        const deletedCategory = recordedCourseCategory.deleteRecordedCourseCategory(id);
-        const [error, data] = await asycnWrapper(deletedCategory);
-        if (error) {
-            return next(error);
-        }
-        res.status(200).json(data);
-    }
-);
-
-/**
- * @DESC Admin can edit a recorded course category
- * @ROUTE PATCH /admin/recordedCourseCategory/:id
- * @visibility private
-*/
-
-router.patch(
-    "/:id",
-    validation(RecordedCourseCategoryValidator.updateCategory),
-    async (req, res, next) => {
-        const { id } = req.params;
-        const { name } = req.body;
-        const updatedRecordedCourseCategory = recordedCourseCategory.updateRecordedCourseCategory(id, {
-            name
-        });
-        const [error, data] = await asycnWrapper(updatedRecordedCourseCategory);
-        if (error) {
-            return next(error);
-        }
-        res.status(200).json(data);
-    }
-);
-
 
 module.exports = router;
