@@ -5,6 +5,7 @@ const QAController = require("./QA");
 const recordedCourses = require("./recordedCourses");
 const recordedCourseCategory = require("./recordedCourseCategory");
 const sessionController = require("./session");
+const studentController = require("./student");
 module.exports = {
   authController,
   courseController,
@@ -13,4 +14,5 @@ module.exports = {
   recordedCourseCategory,
   QAController,
   sessionController,
+  studentController
 };
