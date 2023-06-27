@@ -80,10 +80,12 @@ const CourseValidator = {
     }),
   },
   idParam: {
-    params: Joi.object().required().keys({
+    params: Joi.object()
+      .required()
+      .keys({
         id: Joi.string().length(24).required(),
-    }),
-},
+      }),
+  },
   updateCourse: {
     body: Joi.object().keys({
       name: Joi.string(),
@@ -152,6 +154,13 @@ const TeacherValidator = {
         id: Joi.string().length(24).required(),
       }),
   },
+  getTeacherById: {
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
+  },
 };
 
 const SessionValidator = {
@@ -173,9 +182,11 @@ const RecordedCoursesValidator = {
     }),
   },
   getRecordedCourseById: {
-    params: Joi.object().required().keys({
-      id: Joi.string().length(24).required(),
-    }),
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
   },
   updateRecordeCourses: {
     body: Joi.object().keys({
@@ -212,9 +223,11 @@ const RecordedCourseCategoryValidator = {
     }),
   },
   getRecordedCourseCategoryById: {
-    params: Joi.object().required().keys({
-      id: Joi.string().length(24).required(),
-    }),
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
   },
   getAllCategories: {
     query: Joi.object()
@@ -284,41 +297,53 @@ const QuestionValidator = {
 
 const chapterValidator = {
   addChapter: {
-    body: Joi.array().required().items(
-      Joi.object().keys({
-        title: Joi.string().min(3).required(),
-        description: Joi.string().min(10).required(),
-        media: Joi.string().required()
-      })
-    ),
-    params: Joi.object().required().keys({
-      id: Joi.string().length(24).required(),
-    }),
+    body: Joi.array()
+      .required()
+      .items(
+        Joi.object().keys({
+          title: Joi.string().min(3).required(),
+          description: Joi.string().min(10).required(),
+          media: Joi.string().required(),
+        })
+      ),
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
   },
   getChapterById: {
-    params: Joi.object().required().keys({
-      id: Joi.string().length(24).required(),
-    }),
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
   },
   deleteChapter: {
-    params: Joi.object().required().keys({
-      id: Joi.string().length(24).required(),
-    }),
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
   },
   updateChapter: {
     body: Joi.object().keys({
       title: Joi.string(),
       description: Joi.string().min(10),
-      media: Joi.string()
+      media: Joi.string(),
     }),
-    params: Joi.object().required().keys({
-      id: Joi.string().length(24).required(),
-    }),
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
   },
   getAllChapters: {
-    params: Joi.object().required().keys({
-      id: Joi.string().length(24).required(),
-    }),
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
   },
 };
 
@@ -339,7 +364,6 @@ const StudentValidator = {
       DOB: Joi.date(),
       gender: Joi.string().valid("Male", "Female"),
       level: Joi.string(),
-      
     }),
     params: Joi.object()
       .required()
@@ -349,14 +373,14 @@ const StudentValidator = {
   },
   enrollCourse: {
     idParam: {
-      params: Joi.object().required().keys({
+      params: Joi.object()
+        .required()
+        .keys({
           id: Joi.string().length(24).required(),
-      }),
-  }
+        }),
+    },
   },
 };
-
-
 
 module.exports = {
   validation,
