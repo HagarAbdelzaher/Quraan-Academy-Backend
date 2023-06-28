@@ -1,21 +1,21 @@
 const { BaseError } = require('../libs');
-const { Category, Question } = require('../models');
+const { QuestionCategory, Question } = require('../models');
 
 const addCategory = async (name) => {
-  const category = await Category.create({ name });
+  const category = await QuestionCategory.create({ name });
   if (!category) {
     throw new BaseError('failed to create category!', 400);
   }
   return category;
 };
 const deleteCategory = async (id) => {
-  const category = await Category.findByIdAndDelete(id);
+  const category = await QuestionCategory.findByIdAndDelete(id);
   if (!category) {
     throw new BaseError('failed to delete category!', 400);
   }
   return category;
 };
-const getCategories = () => Category.find({});
+const getCategories = () => QuestionCategory.find({});
 
 const askQuestion = async (question, studentID, categoryID) => {
   if (!studentID) throw new BaseError('un-Authorized', 401);
@@ -96,6 +96,44 @@ const getUserQuestions = async (page, limit, filter) => {
   return questions;
 };
 
+const deleteQuestion = async (role, id, studentID) => {
+  let deletedQuestion;
+  if (role === 'admin') {
+    deletedQuestion = await Question.findByIdAndDelete(id);
+  } else if (role === 'student') {
+    deletedQuestion = await Question.findOneAndDelete(
+      {
+        _id: id,
+        studentID,
+        answer: { $exists: false },
+      },
+    );
+  }
+
+  if (!deletedQuestion) throw new BaseError('cannot delete question', 400);
+  return deletedQuestion;
+};
+
+const deleteAnswer = async (role, id, teacherID) => {
+  let deletedAnswer;
+  if (role === 'admin') {
+    deletedAnswer = await Question.findOneAndUpdate(
+      { _id: id, answer: { $exists: true } },
+      { $unset: { answer: '', teacherID: '' } },
+      { new: true },
+    );
+  } else if (role === 'teacher') {
+    deletedAnswer = await Question.findOneAndUpdate(
+      { _id: id, teacherID },
+      { $unset: { answer: '', teacherID: '' } },
+      { new: true },
+    );
+  }
+
+  if (!deletedAnswer) throw new BaseError('cannot delete answer', 400);
+  return deletedAnswer;
+};
+
 module.exports = {
   addCategory,
   deleteCategory,
@@ -105,4 +143,6 @@ module.exports = {
   answerQuestion,
   getAllQuestions,
   getUserQuestions,
+  deleteQuestion,
+  deleteAnswer,
 };

@@ -6,8 +6,6 @@ const teacherRoutes = require('./teacher');
 const questionRoutes = require('./QA');
 const adminRoutes = require("./admin");
 const studentRoutes = require('./student')
-
-
 const recordedCoursesRoutes = require('./recordedCourses');
 const recordedCourseCategoryRoutes = require('./recordedCourseCategory');
 const chapterRoutes = require('./chapter');
@@ -20,13 +18,11 @@ router.use("/course", courseRoutes);
 router.use("/teacher", teacherRoutes);
 router.use("/meeting", testRoutes);
 router.use("/admin", adminRoutes);
-router.use('/question', questionRoutes);
-router.use('/student', studentRoutes);
 router.use("/question", questionRoutes);
-router.use('/recordedCourses', recordedCoursesRoutes);
-router.use('/recordedCourseCategory', recordedCourseCategoryRoutes);
-router.use('/chapters', chapterRoutes);
+router.use("/recordedCourses", recordedCoursesRoutes);
+router.use("/recordedCourseCategory", recordedCourseCategoryRoutes);
+router.use("/chapters", chapterRoutes);
 router.use("/session", sessionRoutes);
-router.use("/student",  studentRoutes);
+router.use("/student", studentRoutes);
 
 module.exports = router;
