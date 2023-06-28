@@ -98,6 +98,7 @@ async (req, res, next) => {
 
 router.delete('/course/:id',
  authStudent,
+ validation(StudentValidator.idParam),
   async (req, res, next) => {
   const courseId = req.params.id;
   const studentId = req.student.id; 
@@ -108,7 +109,8 @@ router.delete('/course/:id',
 });
 
 router.get('/course/:id', 
-authStudent, 
+authStudent,
+validation(StudentValidator.idParam),
 async (req, res, next) => {
   const courseId = req.params.id;
   const studentId = req.student.id; 
