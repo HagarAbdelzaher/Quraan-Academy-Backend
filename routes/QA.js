@@ -7,8 +7,7 @@ const { validation, CategoryValidator, QuestionValidator } = require('../middlew
 
 const router = express.Router();
 
-// delete question by student and admin
-// delete answer by teacher and admin
+// delete answer by teacher and admin 
 
 router.post(
   '/category',
@@ -124,4 +123,18 @@ router.get(
     res.status(200).json({ message: 'success', data });
   },
 );
+
+router.delete(
+  '/:id',
+  authStudent,
+  async (req, res, next) => {
+    const { params: { id } } = req;
+    const studentID = req.student._id;
+    const deletedQuestion = QAController.deleteQuestion('student', id, studentID);
+    const [err, data] = await asycnWrapper(deletedQuestion);
+    if (err) return next(err);
+    res.status(200).json({ message: 'success', data });
+  }
+)
+
 module.exports = router;
