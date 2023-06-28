@@ -26,7 +26,7 @@ router.post(
     if (error) {
       return next(error);
     }
-    res.status(201).json({ sucess: true, data });
+    res.status(201).json({ success: true, data });
   }
 );
 
