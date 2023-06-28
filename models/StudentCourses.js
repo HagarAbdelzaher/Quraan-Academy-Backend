@@ -11,7 +11,9 @@ const StudentCourseSchema = new mongoose.Schema({
         ref: "Student",
         required: true,
     },
-}, {
+    teacherComment: {
+        type: String,
+    },
     timestamps: true,
 });
 const StudentCourses = mongoose.model('StudentCourses', StudentCourseSchema);

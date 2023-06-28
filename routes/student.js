@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 const express = require('express');
-const { studentController,studentCoursesController } = require('../controllers');
+const { studentController, studentCoursesController } = require('../controllers');
 const { asycnWrapper } = require('../libs');
 const { validation, StudentValidator } = require('../middlewares/validation');
 const { authStudent } = require('../middlewares');
@@ -14,7 +14,7 @@ router.get(
   validation(StudentValidator.enrollCourse),
   async (req, res, next) => {
     const courseId = req.params.id;
-    const studentId = req.student.id; 
+    const studentId = req.student.id;
     const url = studentController.checkoutCourse(courseId, studentId);
     const [error, data] = await asycnWrapper(url);
     if (error) {
@@ -87,48 +87,48 @@ router.patch(
   },
 );
 
-router.get('/:id', 
-validation(StudentValidator.idParam),
-async (req, res, next) => {
-  const { id } = req.params;
-  const [err, data] = await asycnWrapper(studentController.getStudentById(id));
-  if (err) return next(err);
-  res.status(200).json( data );
-});
+router.get('/:id',
+  validation(StudentValidator.idParam),
+  async (req, res, next) => {
+    const { id } = req.params;
+    const [err, data] = await asycnWrapper(studentController.getStudentById(id));
+    if (err) return next(err);
+    res.status(200).json(data);
+  });
 
 router.delete('/course/:id',
- authStudent,
- validation(StudentValidator.idParam),
+  authStudent,
+  validation(StudentValidator.idParam),
   async (req, res, next) => {
-  const courseId = req.params.id;
-  const studentId = req.student.id; 
-  const delCourse = studentCoursesController.deleteCourse(studentId , courseId);
-  const [error, data] = await asycnWrapper(delCourse );
-  if(error) next(error);
-  res.status(200).json(data);
-});
+    const courseId = req.params.id;
+    const studentId = req.student.id;
+    const delCourse = studentCoursesController.deleteCourse(studentId, courseId);
+    const [error, data] = await asycnWrapper(delCourse);
+    if (error) next(error);
+    res.status(200).json(data);
+  });
 
-router.get('/course/:id', 
-authStudent,
-validation(StudentValidator.idParam),
-async (req, res, next) => {
-  const courseId = req.params.id;
-  const studentId = req.student.id; 
-  const course= studentCoursesController.getOneStudentCourse(studentId,courseId);
-  const [error, data] = await asycnWrapper(course);
-  if(error) next(error);
-  res.status(200).json(data );
-});
+router.get('/course/:id',
+  authStudent,
+  validation(StudentValidator.idParam),
+  async (req, res, next) => {
+    const courseId = req.params.id;
+    const studentId = req.student.id;
+    const course = studentCoursesController.getOneStudentCourse(studentId, courseId);
+    const [error, data] = await asycnWrapper(course);
+    if (error) next(error);
+    res.status(200).json(data);
+  });
 
 router.get('/courses/',
- authStudent, 
- async (req, res, next) => {
-    const studentId = req.student.id; 
+  authStudent,
+  async (req, res, next) => {
+    const studentId = req.student.id;
     const courses = studentCoursesController.getAllStudentCourses(studentId);
     const [error, data] = await asycnWrapper(courses);
-    if(error) next(error);
-    res.status(200).json(data );
-});
+    if (error) next(error);
+    res.status(200).json(data);
+  });
 
 
 module.exports = router;
