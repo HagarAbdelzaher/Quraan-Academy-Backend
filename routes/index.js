@@ -1,15 +1,16 @@
-const express = require("express");
-const authRoutes = require("./auth");
-const courseRoutes = require("./courses");
-const testRoutes = require("./test");
-const questionRoutes = require("./QA");
+const express = require('express');
+const authRoutes = require('./auth');
+const courseRoutes = require('./courses');
+const testRoutes = require('./test');
+const teacherRoutes = require('./teacher');
+const questionRoutes = require('./QA');
 const adminRoutes = require("./admin");
-const teacherRoutes = require("./teacher");
-const recordedCoursesRoutes = require("./recordedCourses");
-const recordedCourseCategoryRoutes = require("./recordedCourseCategory");
-const chapterRoutes = require("./chapter");
+const studentRoutes = require('./student')
+const recordedCoursesRoutes = require('./recordedCourses');
+const recordedCourseCategoryRoutes = require('./recordedCourseCategory');
+const chapterRoutes = require('./chapter');
 const sessionRoutes = require("./session");
-const studentRoutes = require("./student");
+
 const router = express.Router();
 
 router.use("/", authRoutes);
@@ -18,7 +19,6 @@ router.use("/teacher", teacherRoutes);
 router.use("/meeting", testRoutes);
 router.use("/admin", adminRoutes);
 router.use("/question", questionRoutes);
-router.use("/student", studentRoutes);
 router.use("/recordedCourses", recordedCoursesRoutes);
 router.use("/recordedCourseCategory", recordedCourseCategoryRoutes);
 router.use("/chapters", chapterRoutes);
