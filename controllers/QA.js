@@ -66,8 +66,8 @@ const getAllQuestions = async (page, limit, filter) => {
       page: page || 1,
       limit: limit > 0 && limit < 100 ? limit : 20,
       populate: [{ path: 'studentID', select: 'firstName lastName' },
-      { path: 'teacherID', select: 'firstName lastName' },
-      { path: 'categoryID', select: 'name' },
+        { path: 'teacherID', select: 'firstName lastName' },
+        { path: 'categoryID', select: 'name' },
       ],
     },
   );
@@ -90,7 +90,7 @@ const getUserQuestions = async (page, limit, filter) => {
     page: page || 1,
     limit: limit > 0 && limit < 100 ? limit : 20,
     populate: [{ path: 'teacherID', select: 'firstName lastName' },
-    { path: 'categoryID', select: 'name' }],
+      { path: 'categoryID', select: 'name' }],
   });
 
   return questions;
@@ -98,14 +98,41 @@ const getUserQuestions = async (page, limit, filter) => {
 
 const deleteQuestion = async (role, id, studentID) => {
   let deletedQuestion;
-  if (role === 'admin') // admin can delete question with answer
+  if (role === 'admin') {
     deletedQuestion = await Question.findByIdAndDelete(id);
-  else if (role === 'student') // student cannot delete answered question
-    deletedQuestion = await Question.findOneAndDelete({ _id: id, studentID, answer: { $exists: false } });
-  
+  } else if (role === 'student') {
+    deletedQuestion = await Question.findOneAndDelete(
+      {
+        _id: id,
+        studentID,
+        answer: { $exists: false },
+      },
+    );
+  }
+
   if (!deletedQuestion) throw new BaseError('cannot delete question', 400);
   return deletedQuestion;
-}
+};
+
+const deleteAnswer = async (role, id, teacherID) => {
+  let deletedAnswer;
+  if (role === 'admin') {
+    deletedAnswer = await Question.findOneAndUpdate(
+      { _id: id, answer: { $exists: true } },
+      { $unset: { answer: '', teacherID: '' } },
+      { new: true },
+    );
+  } else if (role === 'teacher') {
+    deletedAnswer = await Question.findOneAndUpdate(
+      { _id: id, teacherID },
+      { $unset: { answer: '', teacherID: '' } },
+      { new: true },
+    );
+  }
+
+  if (!deletedAnswer) throw new BaseError('cannot delete answer', 400);
+  return deletedAnswer;
+};
 
 module.exports = {
   addCategory,
@@ -116,5 +143,6 @@ module.exports = {
   answerQuestion,
   getAllQuestions,
   getUserQuestions,
-  deleteQuestion
+  deleteQuestion,
+  deleteAnswer,
 };

@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+/* eslint-disable consistent-return */
 const express = require('express');
 const { authAdmin, authStudent, authTeacher } = require('../middlewares');
 const { QAController } = require('../controllers');
@@ -7,7 +8,7 @@ const { validation, CategoryValidator, QuestionValidator } = require('../middlew
 
 const router = express.Router();
 
-// delete answer by teacher and admin 
+/* Questions Category */
 
 router.post(
   '/category',
@@ -41,6 +42,9 @@ router.get(
     res.status(200).json({ message: 'success', data });
   },
 );
+
+/* Questions */
+
 router.post(
   '/ask',
   validation(QuestionValidator.askQuestion),
@@ -68,23 +72,6 @@ router.patch(
     const [err, data] = await asycnWrapper(updateQuestion);
     if (err) return next(err);
     res.status(201).json({ message: 'success', data });
-  },
-);
-
-router.patch(
-  '/:id/answer',
-  validation(QuestionValidator.answerQuestion),
-  authTeacher,
-  async (req, res, next) => {
-    const {
-      body: { answer },
-      params: { id },
-    } = req;
-    const teacherID = req.teacher._id;
-    const newAnswer = QAController.answerQuestion(id, answer, teacherID);
-    const [err, data] = await asycnWrapper(newAnswer);
-    if (err) return next(err);
-    res.status(200).json({ message: 'success', data });
   },
 );
 
@@ -134,7 +121,39 @@ router.delete(
     const [err, data] = await asycnWrapper(deletedQuestion);
     if (err) return next(err);
     res.status(200).json({ message: 'success', data });
-  }
-)
+  },
+);
+
+/* Answers */
+router.patch(
+  '/:id/answer',
+  validation(QuestionValidator.answerQuestion),
+  authTeacher,
+  async (req, res, next) => {
+    const {
+      body: { answer },
+      params: { id },
+    } = req;
+    const teacherID = req.teacher._id;
+    const newAnswer = QAController.answerQuestion(id, answer, teacherID);
+    const [err, data] = await asycnWrapper(newAnswer);
+    if (err) return next(err);
+    res.status(200).json({ message: 'success', data });
+  },
+);
+
+// delete answer for specific question by owner teacher
+router.patch(
+  '/:id/remove/answer',
+  authTeacher,
+  async (req, res, next) => {
+    const { params: { id } } = req;
+    const teacherID = req.teacher._id;
+    const deletedAnswer = QAController.deleteAnswer('teacher', id, teacherID);
+    const [err, data] = await asycnWrapper(deletedAnswer);
+    if (err) return next(err);
+    res.status(200).json({ message: 'success', data });
+  },
+);
 
 module.exports = router;
