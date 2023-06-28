@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 const express = require('express');
-const { studentController } = require('../controllers');
+const { studentController,studentCoursesController } = require('../controllers');
 const { asycnWrapper } = require('../libs');
 const { validation, StudentValidator } = require('../middlewares/validation');
 const { authStudent } = require('../middlewares');
@@ -96,22 +96,37 @@ async (req, res, next) => {
   res.status(200).json( data );
 });
 
-// router.delete('/course/:id', validation(StudentValidator.idParam), async (req, res, next) => {
-//   const { params: { id } } = req;
-//   const deleteCourse = studentCoursesController.deleteCourse({ studentId: req.student._id, courseId: id});
-//   const [error, data] = await asycnWrapper(deleteCourse );
-//   if(error) next(error);
-//   res.status(200).json({data});
-// });
+router.delete('/course/:id',
+ authStudent,
+  async (req, res, next) => {
+  const courseId = req.params.id;
+  const studentId = req.student.id; 
+  const delCourse = studentCoursesController.deleteCourse(studentId , courseId);
+  const [error, data] = await asycnWrapper(delCourse );
+  if(error) next(error);
+  res.status(200).json(data);
+});
 
-// router.get('/courses/', async (req, res, next) => {
-//   const { query: { studentId, page, limit} } = req;
-//   const Courses= studentCoursesController.getUserCourses(studentId,req.user.id,page,limit);
-//   const [error, data] = await asycnWrapper(Courses);
-//   if(error) next(error);
-//   res.status(200).json({data});
-// });
+router.get('/course/:id', 
+authStudent, 
+async (req, res, next) => {
+  const courseId = req.params.id;
+  const studentId = req.student.id; 
+  const course= studentCoursesController.getOneStudentCourse(studentId,courseId);
+  const [error, data] = await asycnWrapper(course);
+  if(error) next(error);
+  res.status(200).json(data );
+});
 
+router.get('/courses/',
+ authStudent, 
+ async (req, res, next) => {
+    const studentId = req.student.id; 
+    const courses = studentCoursesController.getAllStudentCourses(studentId);
+    const [error, data] = await asycnWrapper(courses);
+    if(error) next(error);
+    res.status(200).json(data );
+});
 
 
 module.exports = router;
