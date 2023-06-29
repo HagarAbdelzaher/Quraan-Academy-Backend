@@ -72,6 +72,25 @@ router.get(
 );
 
 /**
+ * @DESC Admin can get all recorded course category not paginated
+ * @ROUTE GET /admin/recordedCourseCategory/allCategories
+ * @visibility public
+*/
+
+router.get(
+    "/allCategories",
+    async (req, res, next) => {
+        const allCategories = recordedCourseCategory.getAllRecordedCourseCategoriesNotPaginated();
+        const [error, data] = await asycnWrapper(allCategories);
+        if (error) {
+            return next(error);
+        }
+        res.status(200).json(data);
+    }
+);
+
+
+/**
  * @DESC Admin can get all recorded course by category paginated
  * @ROUTE GET /admin/recordedCourseCategory/:id/getRecordedCourses
  * @visibility public

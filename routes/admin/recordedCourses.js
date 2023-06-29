@@ -17,9 +17,9 @@ router.post(
     "/add",
     validation(RecordedCoursesValidator.addRecordedCourse),
     async (req, res, next) => {
-        const { name, price, numberOfChapters, category } = req.body;
+        const { name, price, category } = req.body;
         const recordedCourse = recordedCourses.addRecordedCourse({
-            name, price, numberOfChapters, category
+            name, price, category
         });
         const [error, data] = await asycnWrapper(recordedCourse);
         if (error) {
@@ -60,8 +60,9 @@ router.get(
     validation(RecordedCoursesValidator.getAllRecordedCourses),
     async (req, res, next) => {
         const limit = 6;
+        const category = req.query.category ? req.query.category : null;
         const page = req.query.page ? req.query.page : 1;
-        const allRecordedCourses = recordedCourses.getAllRecordedCourses(page, limit);
+        const allRecordedCourses = recordedCourses.getAllRecordedCourses(page, limit, category);
         const [error, data] = await asycnWrapper(allRecordedCourses);
         if (error) {
             return next(error);

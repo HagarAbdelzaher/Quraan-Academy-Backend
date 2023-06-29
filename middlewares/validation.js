@@ -177,7 +177,6 @@ const RecordedCoursesValidator = {
     body: Joi.object().keys({
       name: Joi.string().trim().min(3).max(25).required(),
       price: Joi.number().min(1).required(),
-      numberOfChapters: Joi.number().min(1).required(),
       category: Joi.string().trim().required().length(24),
     }),
   },
@@ -205,6 +204,7 @@ const RecordedCoursesValidator = {
       .required()
       .keys({
         page: Joi.number().required().min(1).max(1000),
+        category: Joi.string().trim().length(24),
       }),
   },
   deleteRecordedCourse: {

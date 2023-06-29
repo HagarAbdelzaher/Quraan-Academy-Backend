@@ -31,6 +31,14 @@ const getAllRecordedCourseCategories = async (page, limit) => {
     return recordedCourseCategory;
 }
 
+const getAllRecordedCourseCategoriesNotPaginated = async () => {
+    const recordedCourseCategory = await RecordedCourseCategory.find();
+    if (!recordedCourseCategory) {
+        throw new BaseError("Can't get recorded course category", 500);
+    }
+    return recordedCourseCategory;
+}
+
 const getRecordedCoursesByCategory = async (categoryId, page, limit) => {
     await getRecordedCourseCategoryById(categoryId);
     const skip = (page - 1) * limit;
@@ -63,5 +71,6 @@ module.exports = {
     getAllRecordedCourseCategories,
     getRecordedCoursesByCategory,
     updateRecordedCourseCategory,
-    deleteRecordedCourseCategory
+    deleteRecordedCourseCategory,
+    getAllRecordedCourseCategoriesNotPaginated
 }

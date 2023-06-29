@@ -6,12 +6,8 @@ const createChapter = async (recordedCourseId, dataArr) => {
     if (!recordedCourse) {
         throw new BaseError('Recorded course not found', 404);
     }
-    const numberOfChapters = recordedCourse.numberOfChapters;
-    if (dataArr.length !== numberOfChapters) {
-        throw new BaseError(`Expected ${numberOfChapters} chapter data objects, but received ${dataArr.length}`, 400);
-    }
     const chapters = [];
-    for (let i = 0; i < numberOfChapters; i++) {
+    for (let i = 0; i < dataArr.length; i++) {
         const chapterData = dataArr[i];
         const chapter = await Chapter.create({
             ...chapterData,
@@ -19,6 +15,7 @@ const createChapter = async (recordedCourseId, dataArr) => {
         });
         chapters.push(chapter);
     }
+    await RecordedCourses.findByIdAndUpdate(recordedCourseId, { $inc: { numberOfChapters: chapters.length } });
     return chapters;
 }
 
@@ -40,7 +37,7 @@ const deleteChapter = async (id) => {
         deletedChapter.recordedCourse,
         { $inc: { numberOfChapters: -1 } }
     );
-    if(!updateRecordedCourse){
+    if (!updateRecordedCourse) {
         throw new BaseError("Cannot update recorded course", 500);
     }
     return deletedChapter;
@@ -56,6 +53,10 @@ const updateChapter = async (id, data) => {
 }
 
 const getChaptersOfRecordedCourse = async (recordedCourseId) => {
+    const recordedCourse = await RecordedCourses.findById(recordedCourseId);
+    if (!recordedCourse) {
+        throw new BaseError('Recorded course not found', 404);
+    }
     const chapters = await Chapter.find({ recordedCourse: recordedCourseId });
     return chapters;
 }

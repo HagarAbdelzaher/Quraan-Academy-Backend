@@ -29,7 +29,7 @@ router.get(
 
 /**
  * @DESC User can get all recorded course paginated
- * @ROUTE GET recordedCourses/getAllRecordedCourses
+ * @ROUTE GET recordedCourses/getAllRecordedCourses?page=1&category=:id
  * @visibility public
 */
 
@@ -38,8 +38,9 @@ router.get(
     validation(RecordedCoursesValidator.getAllRecordedCourses),
     async (req, res, next) => {
         const limit = 6;
+        const category = req.query.category ? req.query.category : null;
         const page = req.query.page ? req.query.page : 1;
-        const allRecordedCourses = recordedCourses.getAllRecordedCourses(page, limit);
+        const allRecordedCourses = recordedCourses.getAllRecordedCourses(page, limit, category);
         const [error, data] = await asycnWrapper(allRecordedCourses);
         if (error) {
             return next(error);

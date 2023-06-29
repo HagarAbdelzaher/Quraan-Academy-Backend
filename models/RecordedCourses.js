@@ -18,7 +18,7 @@ const recordedCoursesSchema = new Schema(
         },
         numberOfChapters: {
             type: Number,
-            required: true,
+            default: 0,
         },
         category: {
             type: mongoose.Types.ObjectId,

@@ -17,9 +17,13 @@ const getRecordedCourseById = async (id) => {
     return recordedCourse;
 }
 
-const getAllRecordedCourses = async (page, limit) => {
+const getAllRecordedCourses = async (page, limit, category) => {
+    let conditions = {};
+    if (category) {
+        conditions.category = category;
+    }
     const skip = (page - 1) * limit;
-    const recordedCourses = await RecordedCourses.find().skip(skip).limit(limit);
+    const recordedCourses = await RecordedCourses.find(conditions).skip(skip).limit(limit).populate("category", "name");
     if (!recordedCourses) {
         throw new BaseError("can't get recorded courses", 500);
     }
@@ -39,7 +43,7 @@ const deleteRecordedCourse = async (id) => {
         throw new BaseError("Cannot delete recorded course with enrolled students", 400);
     }
     const deletedRecordedCourse = await RecordedCourses.findByIdAndDelete(id);
-    if (!deletedChapter) {
+    if (!deletedRecordedCourse) {
         throw new BaseError("Chapter cannot be deleted", 500);
     }
     await Chapter.deleteMany({ recordedCourse: id });
