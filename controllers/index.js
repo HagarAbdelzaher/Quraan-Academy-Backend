@@ -8,6 +8,7 @@ const studentController  = require('./student');
 const chapterController = require('./chapter');
 const sessionController = require("./session");
 const studentCoursesController  = require('./student');
+const zommController = require('./zoom');
 
 module.exports = {
   authController,
@@ -19,5 +20,6 @@ module.exports = {
   chapterController,
   sessionController,
   studentController,
-  studentCoursesController
+  studentCoursesController,
+  zommController,
 };

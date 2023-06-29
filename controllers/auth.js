@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { Student, Teacher, Admin } = require('../models');
 const { BaseError } = require('../libs');
-
+const { createUser } = require('./zoom')
 const { JWT_SECRET } = process.env;
 
 const signUpStudent = async (data) => {
@@ -15,6 +15,10 @@ const signUpTeacher = async (data) => {
   const teacher = await Teacher.create(data);
   if (!teacher) {
     throw new BaseError('SignUp failed', 500);
+  }
+  const zoomUser = await createUser(teacher);
+  if (!zoomUser) {
+    throw new BaseError('teacher not add to zoom', 500);
   }
 };
 

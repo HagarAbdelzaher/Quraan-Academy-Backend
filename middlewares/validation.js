@@ -170,6 +170,13 @@ const SessionValidator = {
       year: Joi.number(),
     }),
   },
+  createMeeting: {
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
+  },
 };
 
 const RecordedCoursesValidator = {
