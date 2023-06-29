@@ -3,8 +3,36 @@
 
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQ0YTYwNTY0NTkxNGIwYTAzZDYwYiIsImVtYWlsIjoiaGFzaGVtQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4NzQ0OTYzNSwiZXhwIjoxNjg4MDU0NDM1fQ.7RCUMAhRopfBJPWCH0pc7eKuvjvOdRGmoylxUrqAPRA
 
-### LOGIN_Student
+### createMeeting
 Get {{url}}/meeting
 Content-Type: application/json
 
 
+### createUser
+Get {{url}}/meeting/create
+Content-Type: application/json
+
+### delteUser
+Get {{url}}/meeting/delete
+Content-Type: application/json
+
+
+
+
+### addCourse
+post {{url}}/course
+Content-Type: application/json
+
+{
+    "name" : "surat-alflaq",
+    "level": "beginner",
+    "description":"surat-nagm surat-nagm",
+    "numberOfSessions":5,
+    "startDate" : "2023-05-3",
+    "endDate": "2023-06-29",
+    "startTime" : "1",
+    "endTime" : "4",
+    "daysOfWeek" : [ "Sunday"],
+    "teacher" : "649def2a4231cf394257f087",
+    "price": 500
+}

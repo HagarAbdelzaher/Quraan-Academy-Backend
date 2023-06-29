@@ -48,4 +48,20 @@ router.get(
   }
 );
 
+router.get(
+  '/create-meeting/:id',
+  validation(SessionValidator.createMeeting),
+  authTeacher,
+  async (req, res, next) => {
+    const sessionId = req.params.id;
+    const { teacher } = req;
+    const sessions = sessionController.setMeeting(sessionId, teacher);
+    const [error, data] = await asycnWrapper(sessions);
+    if (error) {
+      return next(error);
+    }
+    res.status(200).json(data);
+  },
+);
+
 module.exports = router;

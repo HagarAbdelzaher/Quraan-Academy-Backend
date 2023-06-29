@@ -1,0 +1,10 @@
+@url = http://localhost:3000
+#@url = https://quraan.onrender.com
+
+ @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWRlZjJhNDIzMWNmMzk0MjU3ZjA4NyIsImVtYWlsIjoibWFobW91ZGhhc2hlbTIwMTEyMDAyQGdtYWlsLmNvbSIsInJvbGUiOiJ0ZWFjaGVyIiwiaWF0IjoxNjg4MDcyMTQ0LCJleHAiOjE2ODg2NzY5NDR9.kKI9VnBDxlXOMiH6Htzm5ptqV1vevxhiJPUvb9YXzWE
+
+
+### ceate-meeting
+GET {{url}}/session/create-meeting/649def834231cf394257f08b
+Content-Type: application/json
+Authorization: {{token}}

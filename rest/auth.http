@@ -1,7 +1,7 @@
 @url = http://localhost:3000
 # @url = https://quraan.onrender.com
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQ0YTYwNTY0NTkxNGIwYTAzZDYwYiIsImVtYWlsIjoiaGFzaGVtQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4NzQ0OTYzNSwiZXhwIjoxNjg4MDU0NDM1fQ.7RCUMAhRopfBJPWCH0pc7eKuvjvOdRGmoylxUrqAPRA
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVhOTQxNWYxMWI4MzdhNGRmYTJlYiIsImVtYWlsIjoiaGFzaGVtQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4ODA2MTA4MSwiZXhwIjoxNjg4NjY1ODgxfQ.mVTTsfXJvX7mhctCFu3rDC1cZHMCUTApaso6yfiCYYE
 
 ### LOGIN_Student
 POST {{url}}/login/student
@@ -18,8 +18,8 @@ POST {{url}}/login/teacher
 Content-Type: application/json
 
 {
-    "email":"alffi@gmail.com",
-    "password":"hashemhashem1"
+    "email":"mahmoudhashem20112002@gmail.com",
+    "password":"mahmoudmahmoud"
 }
 
 
@@ -53,10 +53,10 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "email":"alffi@gmail.com",
-    "password":"hahsemhahsem",
-    "firstName":"body2",
-    "lastName":"ahmed2",
+    "email":"mahmoudhashem20112002@gmail.com",
+    "password":"mahmoudmahmoud",
+    "firstName":"mahmoud",
+    "lastName":"mahmoud",
     "DOB":"2015-03-25",
     "gender":"Male"
 }
