@@ -15,7 +15,9 @@ router.get(
   async (req, res, next) => {
     const courseId = req.params.id;
     const studentId = req.student.id;
-    const url = studentController.checkoutCourse(courseId, studentId);
+    const { recorded } = req.query;
+
+    const url = studentController.checkoutCourse(courseId, studentId, recorded);
     const [error, data] = await asycnWrapper(url);
     if (error) {
       return next(error);
@@ -24,13 +26,12 @@ router.get(
   },
 );
 
-
 router.get(
   '/enroll-course',
   async (req, res, next) => {
-    const { token, studentId, courseId } = req.query;
+    const { token, studentId, courseId, recorded } = req.query;
 
-    const course = studentController.enrollCourse(token, studentId, courseId);
+    const course = studentController.enrollCourse(token, studentId, courseId, recorded);
     const [error, data] = await asycnWrapper(course);
     if (error) {
       return next(error);
