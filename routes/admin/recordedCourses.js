@@ -71,6 +71,25 @@ router.get(
     }
 );
 
+
+/**
+ * @DESC Admin can get all recorded course not paginated
+ * @ROUTE GET /admin/recordedCourses/allRecordedCourses
+ * @visibility public
+ */
+
+router.get(
+    "/allRecordedCourses",
+    async (req, res, next) => {
+        const allRecordedCourses = recordedCourses.getAllRecordedCoursesNotPaginated();
+        const [error, data] = await asycnWrapper(allRecordedCourses);
+        if (error) {
+            return next(error);
+        }
+        res.status(200).json(data);
+    }
+);
+
 /**
  * @DESC Admin can delete a recorded course
  * @ROUTE DELETE /admin/recordedCourses/:id

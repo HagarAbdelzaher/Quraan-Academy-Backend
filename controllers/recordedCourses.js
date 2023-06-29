@@ -30,6 +30,16 @@ const getAllRecordedCourses = async (page, limit, category) => {
     return recordedCourses;
 }
 
+
+const getAllRecordedCoursesNotPaginated = async () => {
+    const recordedCourses = await RecordedCourses.find();
+    if (!recordedCourses) {
+        throw new BaseError("can't get recorded courses", 500);
+    }
+    return recordedCourses;
+}
+
+
 const updateRecordedCourse = async (id, data) => {
     await getRecordedCourseById(id);
     const updatedRecordedCourse = await RecordedCourses.findByIdAndUpdate(id, data, { new: true });
@@ -55,5 +65,6 @@ module.exports = {
     getRecordedCourseById,
     getAllRecordedCourses,
     updateRecordedCourse,
-    deleteRecordedCourse
+    deleteRecordedCourse,
+    getAllRecordedCoursesNotPaginated
 }

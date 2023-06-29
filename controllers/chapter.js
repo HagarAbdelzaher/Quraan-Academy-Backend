@@ -57,7 +57,7 @@ const getChaptersOfRecordedCourse = async (recordedCourseId) => {
     if (!recordedCourse) {
         throw new BaseError('Recorded course not found', 404);
     }
-    const chapters = await Chapter.find({ recordedCourse: recordedCourseId });
+    const chapters = await Chapter.find({ recordedCourse: recordedCourseId }).populate('recordedCourse', 'name');
     return chapters;
 }
 
