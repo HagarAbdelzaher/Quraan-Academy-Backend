@@ -10,7 +10,7 @@ const addRecordedCourse = async (data) => {
 }
 
 const getRecordedCourseById = async (id) => {
-    const recordedCourse = await RecordedCourses.findById(id);
+    const recordedCourse = await RecordedCourses.findById(id).populate("category", "name");
     if (!recordedCourse) {
         throw new BaseError("course not found", 404);
     }

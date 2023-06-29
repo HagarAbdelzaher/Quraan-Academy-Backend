@@ -46,7 +46,7 @@ const getCourses = async (page, limit, teacher, level) => {
     conditions.level = level;
   }
   const skip = (page - 1) * limit;
-  const courses = await Course.find(conditions).skip(skip).limit(limit).exec();
+  const courses = await Course.find(conditions).populate("teacher", "firstName lastName").skip(skip).limit(limit).exec();
   if (!courses) {
     throw new BaseError("No Courses found", 404);
   }
@@ -136,7 +136,7 @@ const getCourseById = async (id) => {
   if (!course) {
     throw new BaseError('Course not Found', 404);
   }
-  return  course;
+  return course;
 }
 module.exports = {
   addCourse,
