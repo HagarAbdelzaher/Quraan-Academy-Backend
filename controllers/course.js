@@ -1,4 +1,4 @@
-const { Course, Session } = require("../models");
+const { Course, Session, StudentCourses } = require("../models");
 const { BaseError } = require("../libs");
 
 const addCourse = async (data) => {
@@ -113,11 +113,22 @@ const deleteCourse = async (courseId) => {
   }
   // check course didn't start
   const courseCurrentStartDate = course.startDate;
+  const courseCurrentEndDate = course.endDate;
   const currentDate = Date.now();
-  if (currentDate > courseCurrentStartDate) {
+  if (
+    currentDate > courseCurrentStartDate &&
+    currentDate < courseCurrentEndDate
+  ) {
     throw new BaseError("Course in progress , cannot delete it ", 400);
   }
   // check that no students are enrolled in course
+  const enrolledStudents = await StudentCourses.find({
+    courseId: course._id,
+  });
+  // check that course didn't end
+  if (enrolledStudents && currentDate < courseCurrentEndDate) {
+    throw new BaseError("Cannot delete a course with enrolled students", 400);
+  }
 
   // delete the course and its sessions
   const deletedCourse = await Course.findByIdAndDelete(courseId);
@@ -134,15 +145,15 @@ const deleteCourse = async (courseId) => {
 const getCourseById = async (id) => {
   const course = await Course.findById(id);
   if (!course) {
-    throw new BaseError('Course not Found', 404);
+    throw new BaseError("Course not Found", 404);
   }
-  return  course;
-}
+  return course;
+};
 module.exports = {
   addCourse,
   addCourseSessions,
   getCourses,
   updateCourse,
   deleteCourse,
-  getCourseById
+  getCourseById,
 };
