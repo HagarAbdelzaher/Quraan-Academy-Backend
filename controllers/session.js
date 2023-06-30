@@ -1,8 +1,9 @@
 /* eslint-disable no-return-await */
-const { Session, Course } = require('../models');
-const { BaseError } = require('../libs');
-const { createMeeting } = require('./zoom');
+const { Session, Course } = require("../models");
+const { BaseError } = require("../libs");
+const { createMeeting } = require("./zoom");
 
+//admin
 const getSessions = async (month, year) => {
   const currentDate = new Date();
   month = month || currentDate.getMonth() + 1;
@@ -56,24 +57,29 @@ const getTeacherSessions = async (teacherID, month, year) => {
   return teacherSessions;
 };
 
-const getSessionById = async (id) => await Session.findById(id).populate('courseID');
+const getSessionById = async (id) =>
+  await Session.findById(id).populate("courseID");
 
 const setMeeting = async (sessionId, teacher) => {
   let session = await getSessionById(sessionId);
   if (session.courseID.teacher.toString() !== teacher.id.toString()) {
-    throw new BaseError('You are not authorized to perform this action', 404);
+    throw new BaseError("You are not authorized to perform this action", 404);
   }
   const topic = `${session.courseID.name} session 1 `;
   const meeting = await createMeeting(teacher.email, topic);
   if (!meeting) {
-    throw new BaseError('failed to create meeting!', 400);
+    throw new BaseError("failed to create meeting!", 400);
   }
-  session = await Session.findByIdAndUpdate(sessionId, {
-    startUrl: meeting.start_url,
-    joinUrl: meeting.join_url,
-  }, {
-    returnOriginal: false,
-  });
+  session = await Session.findByIdAndUpdate(
+    sessionId,
+    {
+      startUrl: meeting.start_url,
+      joinUrl: meeting.join_url,
+    },
+    {
+      returnOriginal: false,
+    }
+  );
   return session;
 };
 module.exports = {

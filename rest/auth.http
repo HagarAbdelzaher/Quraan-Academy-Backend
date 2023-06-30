@@ -18,8 +18,8 @@ POST {{url}}/login/teacher
 Content-Type: application/json
 
 {
-    "email":"mahmoudhashem20112002@gmail.com",
-    "password":"mahmoudmahmoud"
+    "email":"hayahhazem1999@gmail.com",
+    "password":"123456789"
 }
 
 
@@ -53,10 +53,10 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "email":"mahmoudhashem20112002@gmail.com",
-    "password":"mahmoudmahmoud",
-    "firstName":"mahmoud",
-    "lastName":"mahmoud",
+    "email":"hayahhazem1999@gmail.com",
+    "password":"123456789",
+    "firstName":"Hayah",
+    "lastName":"Hazem",
     "DOB":"2015-03-25",
-    "gender":"Male"
+    "gender":"Female"
 }

@@ -50,6 +50,7 @@ const getCourses = async (page, limit, teacher, level) => {
   if (!courses) {
     throw new BaseError("No Courses found", 404);
   }
+
   return courses;
 };
 
@@ -125,7 +126,7 @@ const deleteCourse = async (courseId) => {
   const enrolledStudents = await StudentCourses.find({
     courseId: course._id,
   });
-  // check that course didn't end
+  // check that course did end
   if (enrolledStudents && currentDate < courseCurrentEndDate) {
     throw new BaseError("Cannot delete a course with enrolled students", 400);
   }
@@ -143,9 +144,13 @@ const deleteCourse = async (courseId) => {
 };
 
 const getCourseById = async (id) => {
-  const course = await Course.findById(id);
+  let course = await Course.findById(id).lean();
   if (!course) {
     throw new BaseError("Course not Found", 404);
+  }
+  const sessions = await Session.find({ courseID: id });
+  if (sessions) {
+    course.sessions = sessions;
   }
   return course;
 };
