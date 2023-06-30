@@ -17,10 +17,9 @@ const studentRecordedCoursesSchema = new Schema(
             required: true,
         },
         progress: {
-            type: Number,
-            default: 0,
-            min: 0,
-            max: 100,
+            type: [mongoose.Schema.Types.ObjectId],
+            default: [],
+            ref: "Chapter",
         },
     },
     {
