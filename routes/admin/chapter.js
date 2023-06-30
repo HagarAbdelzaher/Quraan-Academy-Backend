@@ -48,7 +48,7 @@ router.get(
 );
 
 /**
- * @DESC admin and enrolled students get a chapter by id
+ * @DESC admin get a chapter by id
  * @ROUTE GET /admin/chapters/:id
  * @visibility private
 */
@@ -99,8 +99,8 @@ router.patch(
     validation(chapterValidator.updateChapter),
     async (req, res, next) => {
         const { id } = req.params;
-        const data = req.body;
-        const updatedChapter = chapterController.updateChapter(id, data);
+        const {title, description, media} = req.body;
+        const updatedChapter = chapterController.updateChapter(id, {title, description, media});
         const [error, result] = await asycnWrapper(updatedChapter);
         if (error) {
             return next(error);

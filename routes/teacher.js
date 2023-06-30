@@ -32,6 +32,21 @@ router.get(
   }
 );
 
+// -> get teachers // not pagination 
+//  By Admin
+router.get(
+  "/allTeachers",
+  async (req, res, next) => {
+    const teachers = teacherController.getTeachersNotPaginated();
+    const [error, data] = await asycnWrapper(teachers);
+
+    if (error) {
+      return next(error);
+    }
+    res.status(200).json(data);
+  }
+);
+
 router.get(
   "/:id",
   validation(TeacherValidator.getTeacherById),

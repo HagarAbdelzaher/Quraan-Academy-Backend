@@ -16,6 +16,15 @@ const getTeachers = async (page, limit, gender) => {
   }
   return teachers;
 };
+
+const getTeachersNotPaginated = async () => {
+  const teachers = await Teacher.find().exec();
+  if (!teachers) {
+    throw new BaseError("No teachers found", 404);
+  }
+  return teachers;
+};
+
 const getTeacherById = async (teacherId) => {
   const teacher = await Teacher.findById(teacherId);
   if (!teacher) {
@@ -52,4 +61,5 @@ module.exports = {
   getTeacherById,
   updateTeacher,
   deleteTeacher,
+  getTeachersNotPaginated
 };
