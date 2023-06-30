@@ -80,10 +80,10 @@ router.get(
   async (req, res, next) => {
     const {
       query: {
-        page, limit, categoryID, teacherID,
+        page, limit, categoryID,
       },
     } = req;
-    const questions = QAController.getAllQuestions(page, limit, { categoryID, teacherID });
+    const questions = QAController.getAllQuestions(page, limit, { categoryID });
     const [err, data] = await asycnWrapper(questions);
     if (err) return next(err);
     res.status(200).json({ message: 'success', data });
@@ -96,14 +96,14 @@ router.get(
   async (req, res, next) => {
     const {
       query: {
-        page, limit, categoryID, teacherID,
+        page, limit, categoryID,
       },
     } = req;
     const studentID = req.student._id;
     const questions = QAController.getUserQuestions(
       page,
       limit,
-      { studentID, categoryID, teacherID },
+      { studentID, categoryID },
     );
     const [err, data] = await asycnWrapper(questions);
     if (err) return next(err);
