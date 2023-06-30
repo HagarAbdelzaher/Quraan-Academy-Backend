@@ -1,6 +1,5 @@
 const { Teacher, Course } = require("../models");
 const { BaseError } = require("../libs");
-const { findById } = require("../models/Session");
 
 const getTeachers = async (page, limit, gender) => {
   const conditions = {};
