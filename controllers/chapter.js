@@ -1,4 +1,4 @@
-const { Chapter, RecordedCourses } = require('../models');
+const { Chapter, RecordedCourses, StudentRecordedCourses } = require('../models');
 const { BaseError } = require("../libs");
 
 const createChapter = async (recordedCourseId, dataArr) => {
@@ -28,7 +28,13 @@ const getChapterById = async (id) => {
 }
 
 const deleteChapter = async (id) => {
-    await getChapterById(id);
+    const chapter = await getChapterById(id);
+
+    const enrolledStudentInRecordedCourse = await StudentRecordedCourses.findOne({ courseID: chapter.recordedCourse });
+    if (enrolledStudentInRecordedCourse) {
+        throw new BaseError("Cannot delete recorded course chapter with enrolled students", 400);
+    }
+
     const deletedChapter = await Chapter.findByIdAndDelete(id);
     if (!deletedChapter) {
         throw new BaseError("Chapter cannot be deleted", 500);
