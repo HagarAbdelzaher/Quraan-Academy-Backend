@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const { Schema } = mongoose;
 
@@ -30,6 +31,7 @@ const recordedCoursesSchema = new Schema(
         timestamps: true,
     },
 );
+recordedCoursesSchema.plugin(mongoosePaginate);
 
 const RecordedCourses = mongoose.model('RecordedCourses', recordedCoursesSchema);
 

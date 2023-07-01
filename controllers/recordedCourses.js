@@ -23,8 +23,15 @@ const getAllRecordedCourses = async (page, limit, category) => {
         conditions.category = category;
     }
     const skip = (page - 1) * limit;
-    const recordedCourses = await RecordedCourses.find(conditions).skip(skip).limit(limit).populate("category", "name");
-    if (!recordedCourses) {
+    const recordedCourses = await RecordedCourses.paginate(
+        conditions,
+        {
+            page,
+            limit,
+            populate:{ path: 'category', select: 'name lastName' },
+        })
+    //const recordedCourses = await RecordedCourses.find(conditions).skip(skip).limit(limit).populate("category", "name");
+        if (!recordedCourses) {
         throw new BaseError("can't get recorded courses", 500);
     }
     return recordedCourses;

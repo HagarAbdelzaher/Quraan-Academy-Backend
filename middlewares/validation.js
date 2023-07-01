@@ -211,7 +211,8 @@ const RecordedCoursesValidator = {
       .required()
       .keys({
         page: Joi.number().required().min(1).max(1000),
-        category: Joi.string().trim().length(24),
+        limit: Joi.number().min(1).max(1000),
+        category: Joi.string().length(24).allow(''),
       }),
   },
   deleteRecordedCourse: {
