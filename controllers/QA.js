@@ -56,6 +56,9 @@ const getAllQuestions = async (page, limit, filter) => {
   if (filter.categoryID) {
     query.categoryID = filter.categoryID;
   }
+  if (filter.teacherID) {
+    query.teacherID = filter.teacherID;
+  }
 
   const questions = await Question.paginate(
     query,

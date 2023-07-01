@@ -37,7 +37,7 @@ router.get(
     "/getAllRecordedCourses",
     validation(RecordedCoursesValidator.getAllRecordedCourses),
     async (req, res, next) => {
-        const limit = 6;
+        const limit = req.query.limit ? req.query.limit : 6;
         const category = req.query.category ? req.query.category : null;
         const page = req.query.page ? req.query.page : 1;
         const allRecordedCourses = recordedCourses.getAllRecordedCourses(page, limit, category);
