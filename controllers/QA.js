@@ -65,9 +65,10 @@ const getAllQuestions = async (page, limit, filter) => {
     {
       page: page || 1,
       limit: limit > 0 && limit < 100 ? limit : 20,
+      sort: { 'createdAt': -1 },
       populate: [{ path: 'studentID', select: 'firstName lastName' },
-        { path: 'teacherID', select: 'firstName lastName' },
-        { path: 'categoryID', select: 'name' },
+      { path: 'teacherID', select: 'firstName lastName' },
+      { path: 'categoryID', select: 'name' },
       ],
     },
   );
@@ -82,17 +83,14 @@ const getUserQuestions = async (page, limit, filter) => {
   if (filter.categoryID) {
     query.categoryID = filter.categoryID;
   }
-  if (filter.teacherID) {
-    query.teacherID = filter.teacherID;
-  }
 
   const questions = await Question.paginate(query, {
     page: page || 1,
     limit: limit > 0 && limit < 100 ? limit : 20,
+    sort: { 'createdAt': -1 },
     populate: [{ path: 'teacherID', select: 'firstName lastName' },
-      { path: 'categoryID', select: 'name' }],
+    { path: 'categoryID', select: 'name' }],
   });
-
   return questions;
 };
 

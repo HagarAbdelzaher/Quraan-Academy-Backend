@@ -388,6 +388,17 @@ const StudentValidator = {
         }),
     },
   },
+  studentGetRecordedCourseChapters: {
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+    }),
+  },
+  studentFinishChapter: {
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+      chapterId: Joi.string().length(24).required(),
+    }),
+  }
 };
 
 module.exports = {
