@@ -46,12 +46,22 @@ const getCourses = async (page, limit, teacher, level) => {
     conditions.level = level;
   }
   const skip = (page - 1) * limit;
-  const courses = await Course.find(conditions).populate("teacher", "firstName lastName").skip(skip).limit(limit).exec();
+  const courses = await Course.find(conditions)
+    .populate("teacher", "firstName lastName")
+    .skip(skip)
+    .limit(limit)
+    .exec();
   if (!courses) {
     throw new BaseError("No Courses found", 404);
   }
-
-  return courses;
+  const coursePromises = courses.map(async (course) => {
+    const countOfStudents = await StudentCourses.countDocuments({
+      courseId: course._id,
+    });
+    return { ...course.toObject(), countOfStudents };
+  });
+  const coursesWithCount = await Promise.all(coursePromises);
+  return coursesWithCount;
 };
 
 const updateCourse = async (courseId, newData) => {

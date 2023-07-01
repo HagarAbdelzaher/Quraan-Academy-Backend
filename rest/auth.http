@@ -1,8 +1,7 @@
 @url = http://localhost:3000
 # @url = https://quraan.onrender.com
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVhOTQxNWYxMWI4MzdhNGRmYTJlYiIsImVtYWlsIjoiaGFzaGVtQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4ODA2MTA4MSwiZXhwIjoxNjg4NjY1ODgxfQ.mVTTsfXJvX7mhctCFu3rDC1cZHMCUTApaso6yfiCYYE
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVhOTQxNWYxMWI4MzdhNGRmYTJlYiIsImVtYWlsIjoiaGFzaGVtQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4ODEzMzkxNiwiZXhwIjoxNjg4NzM4NzE2fQ.iTt0JkYlcrs179TBCUee6oaEIvt3Hd1QejHIc8GVazU
 ### LOGIN_Student
 POST {{url}}/login/student
 Content-Type: application/json
