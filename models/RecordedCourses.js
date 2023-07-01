@@ -23,7 +23,7 @@ const recordedCoursesSchema = new Schema(
         },
         category: {
             type: mongoose.Types.ObjectId,
-            ref: "RecordedCourseCategory",
+            ref: "Category",
             required: true,
         },
     },

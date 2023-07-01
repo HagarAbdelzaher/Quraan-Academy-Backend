@@ -1,34 +1,28 @@
 const { BaseError } = require('../libs');
-const { QuestionCategory, Question } = require('../models');
-
-const addCategory = async (name) => {
-  const category = await QuestionCategory.create({ name });
-  if (!category) {
-    throw new BaseError('failed to create category!', 400);
-  }
-  return category;
-};
-const deleteCategory = async (id) => {
-  const category = await QuestionCategory.findByIdAndDelete(id);
-  if (!category) {
-    throw new BaseError('failed to delete category!', 400);
-  }
-  return category;
-};
-const getCategories = () => QuestionCategory.find({});
+const { Category, Question } = require('../models');
 
 const askQuestion = async (question, studentID, categoryID) => {
   if (!studentID) throw new BaseError('un-Authorized', 401);
   if (!categoryID) throw new BaseError('No category specified!', 400);
+  const category = await Category.findById(categoryID);
+  if (!category) throw new BaseError('category not found', 404);
+  if (category.type !== 'question') throw new BaseError('category invalid', 400);
+
   const newQuestion = await Question.create({ question, studentID, categoryID });
   if (!newQuestion) throw new BaseError('failed to add question!', 400);
   return newQuestion;
 };
+
 const updateQuestion = async (id, question, studentID, categoryID) => {
   if (!studentID) throw new BaseError('un-Authorized', 401);
   const questionAnswered = await Question.findById(id);
-
   if (questionAnswered.answer) { throw new BaseError('Cannot update an answered question!', 400); }
+
+  if (categoryID) {
+    const category = await Category.findById(categoryID);
+    if (!category) throw new BaseError('category not found', 404);
+    if (category.type !== 'question') throw new BaseError('category invalid', 400);
+  }
 
   const studentQuestion = await Question.findOneAndUpdate(
     { _id: id, studentID },
@@ -133,9 +127,6 @@ const deleteAnswer = async (role, id, teacherID) => {
 };
 
 module.exports = {
-  addCategory,
-  deleteCategory,
-  getCategories,
   askQuestion,
   updateQuestion,
   answerQuestion,

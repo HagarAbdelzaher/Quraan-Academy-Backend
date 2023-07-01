@@ -4,8 +4,7 @@ const Admin = require('./Admin');
 const Course = require('./Course');
 const Session = require('./Session');
 const Question = require('./Question');
-const QuestionCategory = require('./QuestionCategory');
-const RecordedCourseCategory = require("./RecordedCourseCategory");
+const Category = require('./Category');
 const RecordedCourses = require("./RecordedCourses");
 const StudentRecordedCourses = require("./StudentRecordedCourses");
 const PaymentToken = require('./PaymentToken');
@@ -19,8 +18,7 @@ module.exports = {
   Course,
   Session,
   Question,
-  QuestionCategory,
-  RecordedCourseCategory,
+  Category,
   RecordedCourses,
   StudentRecordedCourses,
   PaymentToken,

@@ -1,47 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 const express = require('express');
-const { authAdmin, authStudent, authTeacher } = require('../middlewares');
+const { authStudent, authTeacher } = require('../middlewares');
 const { QAController } = require('../controllers');
 const { asycnWrapper } = require('../libs');
 const { validation, CategoryValidator, QuestionValidator } = require('../middlewares/validation');
 
 const router = express.Router();
-
-/* Questions Category */
-
-router.post(
-  '/category',
-  validation(CategoryValidator.addCategory),
-  authAdmin,
-  async (req, res, next) => {
-    const { body: { name } } = req;
-    const category = QAController.addCategory(name);
-    const [err, data] = await asycnWrapper(category);
-    if (err) return next(err);
-    res.status(201).json({ message: 'success', category: data });
-  },
-);
-router.delete(
-  '/category/:id',
-  authAdmin,
-  async (req, res, next) => {
-    const { params: { id } } = req;
-    const category = QAController.deleteCategory(id);
-    const [err, data] = await asycnWrapper(category);
-    if (err) return next(err);
-    res.status(200).json({ message: 'success', deletedCategory: data });
-  },
-);
-router.get(
-  '/category',
-  async (req, res, next) => {
-    const category = QAController.getCategories();
-    const [err, data] = await asycnWrapper(category);
-    if (err) return next(err);
-    res.status(200).json({ message: 'success', data });
-  },
-);
 
 /* Questions */
 

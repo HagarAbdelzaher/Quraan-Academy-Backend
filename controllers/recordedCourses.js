@@ -1,7 +1,10 @@
-const { RecordedCourses, StudentRecordedCourses, Chapter } = require("../models");
+const { RecordedCourses, StudentRecordedCourses, Chapter, Category } = require("../models");
 const { BaseError } = require("../libs");
 
 const addRecordedCourse = async (data) => {
+    const category = await Category.findById(data.category);
+    if (!category) throw new BaseError('category not found', 404);
+    if (category.type !== 'recordedCourse') throw new BaseError('category invalid', 400);
     const recordedCourse = await RecordedCourses.create(data);
     if (!recordedCourse) {
         throw new BaseError("can't create recorded course", 500);
@@ -28,10 +31,10 @@ const getAllRecordedCourses = async (page, limit, category) => {
         {
             page,
             limit,
-            populate:{ path: 'category', select: 'name lastName' },
+            populate: { path: 'category', select: 'name lastName' },
         })
     //const recordedCourses = await RecordedCourses.find(conditions).skip(skip).limit(limit).populate("category", "name");
-        if (!recordedCourses) {
+    if (!recordedCourses) {
         throw new BaseError("can't get recorded courses", 500);
     }
     return recordedCourses;
@@ -49,6 +52,13 @@ const getAllRecordedCoursesNotPaginated = async () => {
 
 const updateRecordedCourse = async (id, data) => {
     await getRecordedCourseById(id);
+
+    if (data.category) {
+        const category = await Category.findById(data.category);
+        if (!category) throw new BaseError('category not found', 404);
+        if (category.type !== 'recordedCourse') throw new BaseError('category invalid', 400);
+    }
+
     const updatedRecordedCourse = await RecordedCourses.findByIdAndUpdate(id, data, { new: true });
     return updatedRecordedCourse;
 }

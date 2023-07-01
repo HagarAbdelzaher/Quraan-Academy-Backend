@@ -26,7 +26,8 @@ const QuestionSchema = new mongoose.Schema({
   },
   categoryID: {
     type: mongoose.Types.ObjectId,
-    ref: 'QuestionCategory',
+    ref: 'Category',
+    required: true,
   },
 
 }, {

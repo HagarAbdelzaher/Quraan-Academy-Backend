@@ -224,61 +224,23 @@ const RecordedCoursesValidator = {
   },
 };
 
-const RecordedCourseCategoryValidator = {
-  createCategory: {
-    body: Joi.object().keys({
-      name: Joi.string().trim().min(3).max(25).required(),
-    }),
-  },
-  getRecordedCourseCategoryById: {
-    params: Joi.object()
-      .required()
-      .keys({
-        id: Joi.string().length(24).required(),
-      }),
-  },
-  getAllCategories: {
-    query: Joi.object()
-      .required()
-      .keys({
-        page: Joi.number().required().min(1).max(1000),
-      }),
-  },
-  updateCategory: {
-    body: Joi.object().keys({
-      name: Joi.string().trim().min(3).max(25),
-    }),
-    params: Joi.object()
-      .required()
-      .keys({
-        id: Joi.string().length(24).required(),
-      }),
-  },
-  deleteCategory: {
-    params: Joi.object()
-      .required()
-      .keys({
-        id: Joi.string().length(24).required(),
-      }),
-  },
-  getRecordedCoursesByCategory: {
-    params: Joi.object()
-      .required()
-      .keys({
-        id: Joi.string().length(24).required(),
-      }),
-    query: Joi.object()
-      .required()
-      .keys({
-        page: Joi.number().required().min(1).max(1000),
-      }),
-  },
-};
-
 const CategoryValidator = {
   addCategory: {
     body: Joi.object().keys({
       name: Joi.string().trim().min(2).max(30).required(),
+      type: Joi.string().valid('question', 'recordedCourse').required(),
+    }),
+  },
+  getAll: {
+    query: Joi.object().keys({
+      type: Joi.string().valid('question', 'recordedCourse', ''),
+      page: Joi.number(),
+      limit: Joi.number()
+    }),
+  },
+  updateCat: {
+    body: Joi.object().keys({
+      name: Joi.string().trim().min(2).max(30)
     }),
   },
 };
@@ -407,7 +369,7 @@ module.exports = {
   CourseValidator,
   TeacherValidator,
   RecordedCoursesValidator,
-  RecordedCourseCategoryValidator,
+  // RecordedCourseCategoryValidator,
   CategoryValidator,
   QuestionValidator,
   chapterValidator,
