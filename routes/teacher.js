@@ -46,6 +46,7 @@ router.get("/allTeachers", async (req, res, next) => {
 router.patch(
   '/updateprofile',
   authTeacher,
+  validation(TeacherValidator.updateProfile),
   async (req, res, next) => {
     const teacherId = req.teacher.id;
     const newData = req.body;

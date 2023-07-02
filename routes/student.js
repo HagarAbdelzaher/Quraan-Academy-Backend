@@ -162,6 +162,7 @@ router.get(
 router.patch(
   '/updateprofile',
   authStudent,
+  validation(StudentValidator.updateProfile),
   async (req, res, next) => {
     const studentId = req.student.id;
     const newData = req.body;
