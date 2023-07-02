@@ -22,6 +22,20 @@ router.get(
   },
 );
 
+router.get('/recordedCourse/:id',
+  authStudent,
+  validation(StudentValidator.studentGetRecordedCourseDetails),
+  async (req, res, next) => {
+    const studentId = req.student.id;
+    const recordedCourseId = req.params.id;
+    const course = StudentRecordedCoursesController.getStudentRecordedCourseDetails(studentId, recordedCourseId);
+    const [error, data] = await asycnWrapper(course);
+    if (error) {
+      return next(error);
+    }
+    res.status(200).json(data);
+  });
+
 router.get('/recordedCourse/:id/chapters',
   authStudent,
   validation(StudentValidator.studentGetRecordedCourseChapters),
@@ -35,6 +49,7 @@ router.get('/recordedCourse/:id/chapters',
     }
     res.status(200).json(data);
   });
+
 
 router.patch('/recordedCourse/:id/chapter/:chapterId',
   authStudent,
