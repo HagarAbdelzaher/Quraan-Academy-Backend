@@ -7,13 +7,19 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
 const checkoutCourse = async (courseId, studentId, recorded) => {
   let course;
+  let pervCourse;
   if (recorded === 'true') {
     course = await RecordedCourses.findById(courseId);
+    pervCourse = await StudentRecordedCourses.findOne({ courseID: courseId, studentId })
   } else {
     course = await Course.findById(courseId);
+    pervCourse = await StudentCourses.findOne({ courseId, studentId })
   }
   if (!course) {
     throw new BaseError('Course not Found', 404);
+  }
+  if (pervCourse) {
+    throw new BaseError(`you already enroll in this course`, 400);
   }
 
   const token = crypto.randomBytes(16).toString('hex');

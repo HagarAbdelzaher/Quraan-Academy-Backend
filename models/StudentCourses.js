@@ -20,6 +20,8 @@ const StudentCourseSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
 StudentCourseSchema.plugin(mongoosePaginate);
+StudentCourseSchema.index({ studentId: 1, courseId: 1 }, { unique: true });
 const StudentCourses = mongoose.model("StudentCourses", StudentCourseSchema);
 module.exports = StudentCourses;

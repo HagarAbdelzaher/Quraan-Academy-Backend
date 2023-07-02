@@ -19,7 +19,7 @@ const CategorySchema = new mongoose.Schema({
 });
 CategorySchema.plugin(mongoosePaginate);
 
-CategorySchema.index({ name: 1, type: 1 }, { unique: true });
 
+CategorySchema.index({ name: 1, type: 1 }, { unique: true });
 const Category = mongoose.model('Category', CategorySchema);
 module.exports = Category;

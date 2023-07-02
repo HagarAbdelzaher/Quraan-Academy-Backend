@@ -1,10 +1,10 @@
 @url = http://localhost:3000
 #@url = https://quraan.onrender.com
 
- @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTU4OWJkNDQ2MDA5MzE3ZDMyOTEzMyIsImVtYWlsIjoiYWJkZWxyYWhtYW5AZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2ODgyNTY0NTYsImV4cCI6MTY4ODg2MTI1Nn0.4RHzdltztWfOWPD-dgPb1WiZldDId3kXX8KLQrLhqMk
+ @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTFhMTQ0NDliN2RhYmRlZWU2NGY2MSIsImVtYWlsIjoiaGFnYXIubW9oYW1tYWQuYWJkZWx6YWhlckBnbWFpbC5jb20iLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTY4ODMxNTQwOCwiZXhwIjoxNjg4OTIwMjA4fQ.AxG1SV4-u9-o1iolRNZBdD8AyjABQyrXeh00OngxVJ0
 
 ### Get_All_Teacher
-get  {{url}}/student/checkout-course/649dec80fdbe71c6ee9f4cd9
+get  {{url}}/student/checkout-course/649787a3e6132113e1ccbbac
 Content-Type: application/json
 Authorization: {{token}}
 
