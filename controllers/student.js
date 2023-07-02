@@ -71,7 +71,6 @@ const enrollCourse = async (token, studentId, courseId, recorded) => {
       { path: 'studentId' },
     ]);
   }
-
   return studentCourse;
 };
 

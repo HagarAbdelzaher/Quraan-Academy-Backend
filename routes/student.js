@@ -89,7 +89,12 @@ router.get(
     if (error) {
       return next(error);
     }
-    res.status(200).redirect(`${process.env.CLIENT_URL}/student/courses`);
+    if(recorded === 'true') {
+      res.status(200).redirect(`${process.env.CLIENT_URL}/student/recordedCourses`);
+    }
+    else {
+      res.status(200).redirect(`${process.env.CLIENT_URL}/student/courses`);
+    }
   },
 );
 
