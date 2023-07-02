@@ -48,7 +48,7 @@ const CourseValidator = {
     body: Joi.object().keys({
       name: Joi.string().required(),
       level: Joi.string()
-        .valid("beginner", "intermediate", "advanced")
+        .valid("beginner", "intermediate", "advanced", "kids")
         .required(),
       description: Joi.string().required(),
       numberOfSessions: Joi.number().required(),
@@ -75,7 +75,7 @@ const CourseValidator = {
   },
   getCourses: {
     query: Joi.object().keys({
-      level: Joi.string().valid("beginner", "intermediate", "advanced"),
+      level: Joi.string().valid("beginner", "intermediate", "advanced", "kids"),
       teacher: Joi.string().length(24),
       page: Joi.number().min(1).max(1000),
       filter: Joi.string().valid("upcoming"),
@@ -91,7 +91,7 @@ const CourseValidator = {
   updateCourse: {
     body: Joi.object().keys({
       name: Joi.string(),
-      level: Joi.string().valid("beginner", "intermediate", "advanced"),
+      level: Joi.string().valid("beginner", "intermediate", "advanced", "kids"),
       description: Joi.string(),
       numberOfSessions: Joi.number(),
       startDate: Joi.date(),
