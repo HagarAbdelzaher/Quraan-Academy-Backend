@@ -21,6 +21,11 @@ const checkoutCourse = async (courseId, studentId, recorded) => {
   if (pervCourse) {
     throw new BaseError(`you already enroll in this course`, 400);
   }
+  const courseEndDate = new Date(course.endDate);
+  const currentDate = new Date();  
+  if (courseEndDate < currentDate) {
+    throw new BaseError('The course has already finished', 400);
+  }
 
   const token = crypto.randomBytes(16).toString('hex');
   await PaymentToken.create({
