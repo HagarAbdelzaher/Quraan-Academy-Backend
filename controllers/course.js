@@ -38,7 +38,7 @@ const addCourseSessions = async (course) => {
   return allSessions;
 };
 
-const getCourses = async (page, limit, teacher, level) => {
+const getCourses = async (page, limit, teacher, level, filter) => {
   const conditions = {};
   if (teacher) {
     conditions.teacher = teacher;
@@ -46,12 +46,19 @@ const getCourses = async (page, limit, teacher, level) => {
   if (level) {
     conditions.level = level;
   }
-
+  const currentDate = new Date();
+  if (filter && filter === "upcoming") {
+    conditions.endDate = {
+      $gte: currentDate,
+    };
+  }
   const courses = await Course.paginate(conditions, {
     page: page || 1,
     limit,
+    sort: { endDate: -1 },
     populate: [{ path: "teacher", select: "firstName lastName" }],
   });
+
   if (!courses) {
     throw new BaseError("No Courses found", 404);
   }

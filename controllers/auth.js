@@ -12,6 +12,12 @@ const signUpStudent = async (data) => {
 };
 
 const signUpTeacher = async (data) => {
+  const birthDate = new Date(data.DOB);
+  const currentDate = new Date();
+  const minAgeDate = new Date(currentDate.getFullYear() - 18, currentDate.getMonth(), currentDate.getDate());
+  if (birthDate >= minAgeDate) {
+    throw new BaseError('The age should be greater than 18', 400);
+  }
   const teacher = await Teacher.create(data);
   if (!teacher) {
     throw new BaseError('SignUp failed', 500);

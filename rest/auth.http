@@ -1,7 +1,7 @@
 @url = http://localhost:3000
 # @url = https://quraan.onrender.com
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVhOTQxNWYxMWI4MzdhNGRmYTJlYiIsImVtYWlsIjoiaGFzaGVtQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4ODEzMzkxNiwiZXhwIjoxNjg4NzM4NzE2fQ.iTt0JkYlcrs179TBCUee6oaEIvt3Hd1QejHIc8GVazU
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVhOTQxNWYxMWI4MzdhNGRmYTJlYiIsImVtYWlsIjoiaGFzaGVtQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4ODMyNzAxMSwiZXhwIjoxNjg4OTMxODExfQ.3V91iJec_xgExchW5-LcMNft2t8qFsfdsYlRer5_sbU
 ### LOGIN_Student
 POST {{url}}/login/student
 Content-Type: application/json
@@ -17,7 +17,7 @@ POST {{url}}/login/teacher
 Content-Type: application/json
 
 {
-    "email":"hayahhazem1999@gmail.com",
+    "email":"hagar@gmail.com",
     "password":"123456789"
 }
 
@@ -41,7 +41,7 @@ Content-Type: application/json
     "password":"hahsemhahsem",
     "firstName":"body2",
     "lastName":"ahmed2",
-    "DOB":"2015-03-25",
+    "DOB":"2000-03-25",
     "gender":"Male"
 }
 
@@ -56,6 +56,6 @@ Authorization: {{token}}
     "password":"123456789",
     "firstName":"Hayah",
     "lastName":"Hazem",
-    "DOB":"2015-03-25",
+    "DOB":"2002-03-25",
     "gender":"Female"
 }
