@@ -62,6 +62,10 @@ const getSessionById = async (id) =>
 
 const setMeeting = async (sessionId, teacher) => {
   let session = await getSessionById(sessionId);
+  const currentDate = Date.now();
+  if(session.date < currentDate ){
+    throw new BaseError("The session date has expired", 404);
+  }
   if (session.courseID.teacher.toString() !== teacher.id.toString()) {
     throw new BaseError("You are not authorized to perform this action", 404);
   }
