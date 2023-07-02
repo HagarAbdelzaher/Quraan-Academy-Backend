@@ -4,6 +4,7 @@ const { teacherController } = require("../controllers");
 const { asycnWrapper } = require("../libs");
 const { validation, TeacherValidator } = require("../middlewares/validation");
 const { authAdmin } = require("../middlewares");
+const { authTeacher } = require('../middlewares');
 
 const router = express.Router();
 
@@ -43,6 +44,29 @@ router.get("/allTeachers", async (req, res, next) => {
   }
   res.status(200).json(data);
 });
+router.patch(
+  '/updateprofile',
+  authTeacher,
+  async (req, res, next) => {
+    const teacherId = req.teacher.id;
+    const newData = req.body;
+    const teacher = teacherController.updateTeacher(teacherId, newData);
+    const [error, data] = await asycnWrapper(teacher);
+    if (error) {
+      return next(error);
+    }
+    res.status(200).json(data);
+  },
+);
+
+router.get('/profile',
+authTeacher,
+  async (req, res, next) => {
+    const teacherId= req.teacher.id;
+    const [err, data] = await asycnWrapper(teacherController.getTeacherById(teacherId));
+    if (err) return next(err);
+    res.status(200).json(data);
+  });
 
 router.get(
   "/:id",
@@ -88,5 +112,6 @@ router.delete(
     res.status(200).json(data);
   }
 );
+
 
 module.exports = router;

@@ -127,10 +127,11 @@ router.get(
 );
 
 router.patch(
-  '/:id',
-  validation(StudentValidator.updateStudent),
+  '/updateprofile',
+  authStudent,
+ 
   async (req, res, next) => {
-    const studentId = req.params.id;
+    const studentId = req.student.id;
     const newData = req.body;
     const student = studentController.updateStudent(studentId, newData);
     const [error, data] = await asycnWrapper(student);
@@ -141,11 +142,12 @@ router.patch(
   },
 );
 
-router.get('/:id',
-  validation(StudentValidator.idParam),
+router.get('/profile',
+authStudent,
+
   async (req, res, next) => {
-    const { id } = req.params;
-    const [err, data] = await asycnWrapper(studentController.getStudentById(id));
+    const studentId = req.student.id;
+    const [err, data] = await asycnWrapper(studentController.getStudentById(studentId));
     if (err) return next(err);
     res.status(200).json(data);
   });
