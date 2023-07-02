@@ -1,10 +1,10 @@
 @url = http://localhost:3000
 #@url = https://quraan.onrender.com
 
- @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTU4OWJkNDQ2MDA5MzE3ZDMyOTEzMyIsImVtYWlsIjoiYWJkZWxyYWhtYW5AZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2ODgxNDcwMDEsImV4cCI6MTY4ODc1MTgwMX0.Cjm9iQnxnuglmEVGqZMsQWsPplG6PZ80G8Pk5BKvd7E
+ @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTU4OWJkNDQ2MDA5MzE3ZDMyOTEzMyIsImVtYWlsIjoiYWJkZWxyYWhtYW5AZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2ODgyNTY0NTYsImV4cCI6MTY4ODg2MTI1Nn0.4RHzdltztWfOWPD-dgPb1WiZldDId3kXX8KLQrLhqMk
 
 ### Get_All_Teacher
-get  {{url}}/student/checkout-course/649ccb54e2765eef596e6494
+get  {{url}}/student/checkout-course/649dec80fdbe71c6ee9f4cd9
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -23,8 +23,12 @@ get  {{url}}/student/recordedCourse/64a044b3f3bcf324ad879102
 Content-Type: application/json
 Authorization: {{token}}
 
+### Get_All_Chapters_Of_Recorded_Course
+GET  {{url}}/student/courses
+Content-Type: application/json
+Authorization: {{token}}
 
 ### Patch to increase progress for finishing a chapter
-patch  {{url}}/student/recordedCourse/64a044b3f3bcf324ad879102/chapter/64a0d7dc5c17028a852f3f98
+patch  {{url}}/student/recordedCourse/64a04ef392fb909794137d48/chapter/64a04f5792fb909794137d56
 Content-Type: application/json
 Authorization: {{token}}

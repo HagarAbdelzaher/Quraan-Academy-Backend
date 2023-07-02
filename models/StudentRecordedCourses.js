@@ -26,6 +26,7 @@ const studentRecordedCoursesSchema = new Schema(
         timestamps: true,
     },
 );
+studentRecordedCoursesSchema.index({ studentId: 1, courseID: 1 }, { unique: true });
 
 const StudentRecordedCourses = mongoose.model('StudentRecordedCourses', studentRecordedCoursesSchema);
 

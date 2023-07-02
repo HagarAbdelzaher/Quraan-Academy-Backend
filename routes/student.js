@@ -115,18 +115,19 @@ router.get('/enroll-course', async (req, res, next) => {
     token, studentId, courseId, recorded,
   } = req.query;
 
-  const course = studentController.enrollCourse(
-    token,
-    studentId,
-    courseId,
-    recorded,
-  );
-  const [error, data] = await asycnWrapper(course);
-  if (error) {
-    return next(error);
-  }
-  res.status(200).redirect(`${process.env.CLIENT_URL}/student/courses`);
-});
+    const course = studentController.enrollCourse(token, studentId, courseId, recorded);
+    const [error, data] = await asycnWrapper(course);
+    if (error) {
+      return next(error);
+    }
+    if(recorded === 'true') {
+      res.status(200).redirect(`${process.env.CLIENT_URL}/student/recordedCourses`);
+    }
+    else {
+      res.status(200).redirect(`${process.env.CLIENT_URL}/student/courses`);
+    }
+  },
+);
 
 router.get('/paymentCancel', async (req, res, next) => {
   const { token, studentId } = req.query;
