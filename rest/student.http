@@ -4,7 +4,7 @@
  @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTFhMTQ0NDliN2RhYmRlZWU2NGY2MSIsImVtYWlsIjoiaGFnYXIubW9oYW1tYWQuYWJkZWx6YWhlckBnbWFpbC5jb20iLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTY4ODMxNTQwOCwiZXhwIjoxNjg4OTIwMjA4fQ.AxG1SV4-u9-o1iolRNZBdD8AyjABQyrXeh00OngxVJ0
 
 ### Get_All_Teacher
-get  {{url}}/student/checkout-course/649787a3e6132113e1ccbbac
+get  {{url}}/student/checkout-course/64a044b3f3bcf324ad879102?recorded=true
 Content-Type: application/json
 Authorization: {{token}}
 
