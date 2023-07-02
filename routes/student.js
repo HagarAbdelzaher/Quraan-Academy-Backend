@@ -1,20 +1,19 @@
 /* eslint-disable consistent-return */
-const express = require("express");
+const express = require('express');
 const {
   studentController,
   studentCoursesController,
   StudentRecordedCoursesController,
-} = require("../controllers");
-const { asycnWrapper } = require("../libs");
-const { validation, StudentValidator } = require("../middlewares/validation");
-const { authStudent } = require("../middlewares");
+} = require('../controllers');
+const { asycnWrapper } = require('../libs');
+const { validation, StudentValidator } = require('../middlewares/validation');
+const { authStudent } = require('../middlewares');
 
 const router = express.Router();
 
-router.get("/recordedCourses", authStudent, async (req, res, next) => {
+router.get('/recordedCourses', authStudent, async (req, res, next) => {
   const studentId = req.student.id;
-  const recordedCourses =
-    StudentRecordedCoursesController.getStudentRecordedCourses(studentId);
+  const recordedCourses = StudentRecordedCoursesController.getStudentRecordedCourses(studentId);
   const [error, data] = await asycnWrapper(recordedCourses);
   if (error) {
     return next(error);
@@ -23,47 +22,46 @@ router.get("/recordedCourses", authStudent, async (req, res, next) => {
 });
 
 router.get(
-  "/recordedCourse/:id/chapters",
+  '/recordedCourse/:id/chapters',
   authStudent,
   validation(StudentValidator.studentGetRecordedCourseChapters),
   async (req, res, next) => {
     const studentId = req.student.id;
     const recordedCourseId = req.params.id;
-    const chapters =
-      StudentRecordedCoursesController.studentGetRecordedCourseChapters(
-        studentId,
-        recordedCourseId
-      );
+    const chapters = StudentRecordedCoursesController.studentGetRecordedCourseChapters(
+      studentId,
+      recordedCourseId,
+    );
     const [error, data] = await asycnWrapper(chapters);
     if (error) {
       return next(error);
     }
     res.status(200).json(data);
-  }
+  },
 );
 
 router.patch(
-  "/recordedCourse/:id/chapter/:chapterId",
+  '/recordedCourse/:id/chapter/:chapterId',
   authStudent,
   validation(StudentValidator.studentFinishChapter),
   async (req, res, next) => {
     const studentId = req.student.id;
     const recordedCourseId = req.params.id;
-    const chapterId = req.params.chapterId;
+    const { chapterId } = req.params;
     const course = StudentRecordedCoursesController.studentFinishChapter(
       studentId,
       recordedCourseId,
-      chapterId
+      chapterId,
     );
     const [error, data] = await asycnWrapper(course);
     if (error) {
       return next(error);
     }
     res.status(200).json(data);
-  }
+  },
 );
 
-router.get("/courses", authStudent, async (req, res, next) => {
+router.get('/courses', authStudent, async (req, res, next) => {
   const studentId = req.student.id;
   const courses = studentCoursesController.getAllStudentCourses(studentId);
   const [error, data] = await asycnWrapper(courses);
@@ -72,7 +70,7 @@ router.get("/courses", authStudent, async (req, res, next) => {
 });
 
 router.get(
-  "/checkout-course/:id",
+  '/checkout-course/:id',
   authStudent,
   validation(StudentValidator.enrollCourse),
   async (req, res, next) => {
@@ -86,17 +84,19 @@ router.get(
       return next(error);
     }
     res.status(200).json(data);
-  }
+  },
 );
 
-router.get("/enroll-course", async (req, res, next) => {
-  const { token, studentId, courseId, recorded } = req.query;
+router.get('/enroll-course', async (req, res, next) => {
+  const {
+    token, studentId, courseId, recorded,
+  } = req.query;
 
   const course = studentController.enrollCourse(
     token,
     studentId,
     courseId,
-    recorded
+    recorded,
   );
   const [error, data] = await asycnWrapper(course);
   if (error) {
@@ -105,7 +105,7 @@ router.get("/enroll-course", async (req, res, next) => {
   res.status(200).redirect(`${process.env.CLIENT_URL}/student/courses`);
 });
 
-router.get("/paymentCancel", async (req, res, next) => {
+router.get('/paymentCancel', async (req, res, next) => {
   const { token, studentId } = req.query;
 
   const course = studentController.paymentCancel(token, studentId);
@@ -117,7 +117,7 @@ router.get("/paymentCancel", async (req, res, next) => {
 });
 
 router.get(
-  "/",
+  '/',
   validation(StudentValidator.getStudents),
   async (req, res, next) => {
     const { gender, DOB, page = 1 } = req.query;
@@ -132,11 +132,11 @@ router.get(
       return next(error);
     }
     res.status(200).json(data);
-  }
+  },
 );
 
 router.patch(
-  "/:id",
+  '/:id',
   validation(StudentValidator.updateStudent),
   async (req, res, next) => {
     const studentId = req.params.id;
@@ -147,24 +147,24 @@ router.patch(
       return next(error);
     }
     res.status(200).json(data);
-  }
+  },
 );
 
 router.get(
-  "/:id",
+  '/:id',
   validation(StudentValidator.idParam),
   async (req, res, next) => {
     const { id } = req.params;
     const [err, data] = await asycnWrapper(
-      studentController.getStudentById(id)
+      studentController.getStudentById(id),
     );
     if (err) return next(err);
     res.status(200).json(data);
-  }
+  },
 );
 
 router.delete(
-  "/course/:id",
+  '/course/:id',
   authStudent,
   validation(StudentValidator.idParam),
   async (req, res, next) => {
@@ -172,29 +172,45 @@ router.delete(
     const studentId = req.student.id;
     const delCourse = studentCoursesController.deleteCourse(
       studentId,
-      courseId
+      courseId,
     );
     const [error, data] = await asycnWrapper(delCourse);
-    if (error) next(error);
+    if (error) return next(error);
     res.status(200).json(data);
-  }
+  },
 );
 
 router.get(
-  "/course/:id",
+  '/course/:id',
   authStudent,
-  validation(StudentValidator.idParam),
   async (req, res, next) => {
     const courseId = req.params.id;
     const studentId = req.student.id;
     const course = studentCoursesController.getOneStudentCourse(
       studentId,
-      courseId
+      courseId,
     );
     const [error, data] = await asycnWrapper(course);
-    if (error) next(error);
+    if (error) return next(error);
     res.status(200).json(data);
-  }
+  },
+);
+
+// get session by id
+router.get(
+  '/session/:id',
+  authStudent,
+  async (req, res, next) => {
+    const sessionId = req.params.id;
+    const studentId = req.student.id;
+    const session = studentCoursesController.getSessionById(
+      sessionId,
+      studentId,
+    );
+    const [error, data] = await asycnWrapper(session);
+    if (error) return next(error);
+    res.status(200).json(data);
+  },
 );
 
 module.exports = router;

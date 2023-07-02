@@ -4,7 +4,7 @@ const express = require('express');
 const { authStudent, authTeacher } = require('../middlewares');
 const { QAController } = require('../controllers');
 const { asycnWrapper } = require('../libs');
-const { validation, CategoryValidator, QuestionValidator } = require('../middlewares/validation');
+const { validation, QuestionValidator } = require('../middlewares/validation');
 
 const router = express.Router();
 
