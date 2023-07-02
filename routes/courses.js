@@ -36,7 +36,7 @@ router.post(
   "/",
   validation(CourseValidator.addCourse),
   async (req, res, next) => {
-    const {
+    let {
       body: {
         name,
         level,
@@ -51,6 +51,12 @@ router.post(
         price,
       },
     } = req;
+    
+    startDate = new Date(startDate);
+    startDate.setDate(startDate.getDate() + 1);
+    endDate = new Date(endDate);
+    endDate.setDate(endDate.getDate() + 1);
+    
     const course = courseController.addCourse({
       name,
       level,

@@ -11,6 +11,7 @@ const recordedCoursesRoutes = require('./recordedCourses');
 const chapterRoutes = require('./chapter');
 const sessionRoutes = require("./session");
 const categoryRoutes = require("./category");
+const { authAdmin } = require('../middlewares');
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.use("/", authRoutes);
 router.use("/course", courseRoutes);
 router.use("/teacher", teacherRoutes);
 router.use("/meeting", testRoutes);
-router.use("/admin", adminRoutes);
+router.use("/admin", authAdmin, adminRoutes);
 router.use("/question", questionRoutes);
 router.use("/recordedCourses", recordedCoursesRoutes);
 // router.use("/recordedCourseCategory", recordedCourseCategoryRoutes);
