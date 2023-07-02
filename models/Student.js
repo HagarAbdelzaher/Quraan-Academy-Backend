@@ -61,7 +61,9 @@ studentSchema.methods.verfiyPassword = function verfiyPassword(password) {
 };
 
 studentSchema.pre('findOneAndUpdate', function preUpdate(next) {
-  this._update.password = bcrypt.hashSync(this._update.password, 10);
+  if (this._update.password) {
+    this._update.password = bcrypt.hashSync(this._update.password, 10);
+  }
   next();
 });
 

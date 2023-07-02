@@ -1,4 +1,4 @@
-const { Teacher, Course } = require("../models");
+const { Teacher, Course, Session } = require("../models");
 const { BaseError } = require("../libs");
 
 const getTeachers = async (page, limit, gender) => {
@@ -56,10 +56,36 @@ const deleteTeacher = async (teacherId) => {
   return deletedTeacher;
 };
 
+const getTeacherCourse = async (courseId, teacherId) => {
+  const course = await Course.findOne({
+    _id: courseId,
+    teacher: teacherId
+  }).lean();
+  if (!course) throw new BaseError('Teacher not associated with this course', 404);
+
+  const sessions = await Session.find({ courseID: courseId });
+  if (!sessions) { throw new BaseError('Session not Found', 404); }
+
+  course.sessions = sessions;
+
+  return course;
+}
+
+const getSessionById = async (id, teacherID) => {
+  const session = await Session.findById(id).populate('courseID');
+  const courseId = session.courseID._id;
+  const teachesCourse = await Course.findOne({ teacher: teacherID, _id: courseId });
+  if (!teachesCourse) { throw new BaseError('You are not authorized to get this session', 400); }
+  return session;
+};
+
+
 module.exports = {
   getTeachers,
   getTeacherById,
   updateTeacher,
   deleteTeacher,
-  getTeachersNotPaginated
+  getTeachersNotPaginated,
+  getTeacherCourse,
+  getSessionById
 };

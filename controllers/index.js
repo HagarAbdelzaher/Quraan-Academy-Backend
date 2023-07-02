@@ -1,15 +1,15 @@
-const authController = require('./auth');
-const courseController = require('./course');
-const teacherController = require('./teacher');
-const QAController = require('./QA');
-const recordedCourses = require('./recordedCourses');
-const studentController = require('./student');
-const chapterController = require('./chapter');
+const authController = require("./auth");
+const courseController = require("./course");
+const teacherController = require("./teacher");
+const QAController = require("./QA");
+const recordedCourses = require("./recordedCourses");
+const studentController = require("./student");
+const chapterController = require("./chapter");
 const sessionController = require("./session");
-const studentCoursesController = require('./studentCourses');
-const zommController = require('./zoom');
-const StudentRecordedCoursesController = require('./studentRecordedCourses');
-const categoryController = require('./category');
+const studentCoursesController = require("./studentCourses");
+const zommController = require("./zoom");
+const StudentRecordedCoursesController = require("./studentRecordedCourses");
+const categoryController = require("./category");
 module.exports = {
   authController,
   courseController,
@@ -22,5 +22,5 @@ module.exports = {
   studentCoursesController,
   zommController,
   StudentRecordedCoursesController,
-  categoryController
+  categoryController,
 };

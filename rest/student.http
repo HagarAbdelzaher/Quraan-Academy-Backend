@@ -14,7 +14,12 @@ Content-Type: application/json
 Authorization: {{token}}
 
 ### Get_All_Chapters_Of_Recorded_Course
-get  {{url}}/student/recordedCourse/649ccb54e2765eef596e6494/chapters
+get  {{url}}/student/recordedCourse/64a044b3f3bcf324ad879102/chapters
+Content-Type: application/json
+Authorization: {{token}}
+
+### Get_Recorded_Course_Details
+get  {{url}}/student/recordedCourse/64a044b3f3bcf324ad879102
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -22,7 +27,6 @@ Authorization: {{token}}
 GET  {{url}}/student/courses
 Content-Type: application/json
 Authorization: {{token}}
-
 
 ### Patch to increase progress for finishing a chapter
 patch  {{url}}/student/recordedCourse/64a04ef392fb909794137d48/chapter/64a04f5792fb909794137d56
