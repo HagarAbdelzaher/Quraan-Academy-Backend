@@ -360,6 +360,11 @@ const StudentValidator = {
       id: Joi.string().length(24).required(),
       chapterId: Joi.string().length(24).required(),
     }),
+  },
+  studentGetRecordedCourseDetails: {
+    params: Joi.object().required().keys({
+      id: Joi.string().length(24).required(),
+    }),
   }
 };
 

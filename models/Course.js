@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const mongoosePaginate = require("mongoose-paginate-v2");
 const { Schema } = mongoose;
 
 const courseSchema = new Schema(
@@ -70,7 +70,7 @@ const courseSchema = new Schema(
     timestamps: true,
   }
 );
-
+courseSchema.plugin(mongoosePaginate);
 const Course = mongoose.model("Course", courseSchema);
 
 module.exports = Course;

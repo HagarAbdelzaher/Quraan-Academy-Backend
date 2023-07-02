@@ -14,6 +14,18 @@ const getStudentRecordedCourses = async (studentId) => {
     return recordedCourses;
 }
 
+const getStudentRecordedCourseDetails = async (studentId, recordedCourseId) => {
+    const student = await Student.findById(studentId);
+    if (!student) {
+        throw new BaseError("Student not found", 404);
+    }
+    const recordedCourse = await StudentRecordedCourses.findOne({ studentId: studentId,  courseID: recordedCourseId }).populate("courseID");
+    if (!recordedCourse) {
+        throw new BaseError("student isn't enrolled in that course", 400);
+    }
+    return recordedCourse;
+}
+
 const studentGetRecordedCourseChapters = async (studentId, recordedCourseId) => {
     const student = await Student.findById(studentId);
     if (!student) {
@@ -72,5 +84,6 @@ const studentFinishChapter = async (studentId, recordedCourseId, chapterId) => {
 module.exports = {
     getStudentRecordedCourses,
     studentGetRecordedCourseChapters,
-    studentFinishChapter
+    studentFinishChapter,
+    getStudentRecordedCourseDetails
 }
