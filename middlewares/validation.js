@@ -1,5 +1,6 @@
 const Joi = require("joi");
 const { BaseError } = require("../libs");
+const { join } = require("lodash");
 
 const validation = (schema) => async (req, res, next) => {
   const validationErr = [];
@@ -77,6 +78,7 @@ const CourseValidator = {
       level: Joi.string().valid("beginner", "intermediate", "advanced"),
       teacher: Joi.string().length(24),
       page: Joi.number().min(1).max(1000),
+      filter: Joi.string().valid("upcoming"),
     }),
   },
   idParam: {
@@ -155,7 +157,7 @@ const TeacherValidator = {
       lastName: Joi.string().min(3),
       DOB: Joi.date(),
       gender: Joi.string().valid("Male", "Female"),
-    })
+    }),
   },
   deleteTeacher: {
     params: Joi.object()
@@ -222,7 +224,7 @@ const RecordedCoursesValidator = {
       .keys({
         page: Joi.number().required().min(1).max(1000),
         limit: Joi.number().min(1).max(1000),
-        category: Joi.string().length(24).allow(''),
+        category: Joi.string().length(24).allow(""),
       }),
   },
   deleteRecordedCourse: {
@@ -238,19 +240,19 @@ const CategoryValidator = {
   addCategory: {
     body: Joi.object().keys({
       name: Joi.string().trim().min(2).max(30).required(),
-      type: Joi.string().valid('question', 'recordedCourse').required(),
+      type: Joi.string().valid("question", "recordedCourse").required(),
     }),
   },
   getAll: {
     query: Joi.object().keys({
-      type: Joi.string().valid('question', 'recordedCourse', ''),
+      type: Joi.string().valid("question", "recordedCourse", ""),
       page: Joi.number(),
-      limit: Joi.number()
+      limit: Joi.number(),
     }),
   },
   updateCat: {
     body: Joi.object().keys({
-      name: Joi.string().trim().min(2).max(30)
+      name: Joi.string().trim().min(2).max(30),
     }),
   },
 };
@@ -360,7 +362,6 @@ const StudentValidator = {
       DOB: Joi.date(),
       gender: Joi.string().valid("Male", "Female"),
     }),
- 
   },
   enrollCourse: {
     idParam: {
@@ -372,21 +373,27 @@ const StudentValidator = {
     },
   },
   studentGetRecordedCourseChapters: {
-    params: Joi.object().required().keys({
-      id: Joi.string().length(24).required(),
-    }),
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
   },
   studentFinishChapter: {
-    params: Joi.object().required().keys({
-      id: Joi.string().length(24).required(),
-      chapterId: Joi.string().length(24).required(),
-    }),
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+        chapterId: Joi.string().length(24).required(),
+      }),
   },
   studentGetRecordedCourseDetails: {
-    params: Joi.object().required().keys({
-      id: Joi.string().length(24).required(),
-    }),
-  }
+    params: Joi.object()
+      .required()
+      .keys({
+        id: Joi.string().length(24).required(),
+      }),
+  },
 };
 
 module.exports = {

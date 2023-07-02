@@ -5,25 +5,22 @@ const { asycnWrapper } = require("../libs");
 const { validation, CourseValidator } = require("../middlewares/validation");
 const router = express.Router();
 
-// -> get courses // pagination //filter (teacher , level) //DONE
-//  By Admin
-// -> add course /course/ DONE
-// -> update course  ( description , teacher , level ) // DONE
-// -> delete course /course/ // with all of its sessions
-// DONE except ( deleting a course with students condition)
-
-// -> add extra session to course
-
 router.get(
   "/",
   validation(CourseValidator.getCourses),
   async (req, res, next) => {
-    const { teacher, level, page = 1 } = req.query;
+    const { teacher, level, filter, page = 1 } = req.query;
     if (page < 1 || page > 1000) {
       page = 1;
     }
     const limit = 6;
-    const courses = courseController.getCourses(page, limit, teacher, level);
+    const courses = courseController.getCourses(
+      page,
+      limit,
+      teacher,
+      level,
+      filter
+    );
     const [error, data] = await asycnWrapper(courses);
 
     if (error) {
@@ -102,13 +99,15 @@ router.delete(
     res.status(200).json(data);
   }
 );
-router.get('/:id', 
-validation(CourseValidator.idParam),
-async (req, res, next) => {
-  const { id } = req.params;
-  const [err, data] = await asycnWrapper(courseController.getCourseById(id));
-  if (err) return next(err);
-  res.status(200).json( data );
-});
+router.get(
+  "/:id",
+  validation(CourseValidator.idParam),
+  async (req, res, next) => {
+    const { id } = req.params;
+    const [err, data] = await asycnWrapper(courseController.getCourseById(id));
+    if (err) return next(err);
+    res.status(200).json(data);
+  }
+);
 
 module.exports = router;
