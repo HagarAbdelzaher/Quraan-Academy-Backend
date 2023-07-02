@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const mongoosePaginate = require("mongoose-paginate-v2");
 const StudentCourseSchema = new mongoose.Schema(
   {
     courseId: {
@@ -20,5 +20,6 @@ const StudentCourseSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+StudentCourseSchema.plugin(mongoosePaginate);
 const StudentCourses = mongoose.model("StudentCourses", StudentCourseSchema);
 module.exports = StudentCourses;
