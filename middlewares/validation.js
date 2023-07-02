@@ -147,6 +147,16 @@ const TeacherValidator = {
         id: Joi.string().length(24).required(),
       }),
   },
+  updateProfile: {
+    body: Joi.object().keys({
+      email: Joi.string().email(),
+      password: Joi.string().min(8),
+      firstName: Joi.string().min(3),
+      lastName: Joi.string().min(3),
+      DOB: Joi.date(),
+      gender: Joi.string().valid("Male", "Female"),
+    })
+  },
   deleteTeacher: {
     params: Joi.object()
       .required()
@@ -340,6 +350,17 @@ const StudentValidator = {
       .keys({
         id: Joi.string().length(24).required(),
       }),
+  },
+  updateProfile: {
+    body: Joi.object().keys({
+      email: Joi.string().email(),
+      password: Joi.string().min(8),
+      firstName: Joi.string().min(3),
+      lastName: Joi.string().min(3),
+      DOB: Joi.date(),
+      gender: Joi.string().valid("Male", "Female"),
+    }),
+ 
   },
   enrollCourse: {
     idParam: {
