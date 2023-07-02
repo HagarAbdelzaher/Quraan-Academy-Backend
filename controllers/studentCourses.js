@@ -11,13 +11,21 @@ const deleteCourse = async (studentId, courseId) => {
   return deletedCourse;
 };
 
-const getAllStudentCourses = async (studentId) => {
-  console.log("studentId:", studentId);
-  const count = await StudentCourses.countDocuments({ studentId: studentId });
-  const courses = await StudentCourses.find({ studentId: studentId }).populate([
-    { path: "studentId", select: "firstName lastName" },
-    { path: "courseId", select: "name level" },
-  ]);
+const getAllStudentCourses = async (page, limit, studentId) => {
+  const courses = await StudentCourses.paginate(
+    { studentId: studentId },
+    {
+      page: page || 1,
+      limit,
+      populate: [
+        { path: "studentId", select: "firstName lastName" },
+        {
+          path: "courseId",
+          select: "name level description startDate endDate daysOfWeek",
+        },
+      ],
+    }
+  );
   return courses;
 };
 const getNumberOfStudents = async (courseId) => {

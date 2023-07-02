@@ -65,7 +65,16 @@ router.patch(
 
 router.get("/courses", authStudent, async (req, res, next) => {
   const studentId = req.student.id;
-  const courses = studentCoursesController.getAllStudentCourses(studentId);
+  const { page = 1 } = req.query;
+  if (page < 1 || page > 1000) {
+    page = 1;
+  }
+  const limit = 6;
+  const courses = studentCoursesController.getAllStudentCourses(
+    page,
+    limit,
+    studentId
+  );
   const [error, data] = await asycnWrapper(courses);
   if (error) next(error);
   res.status(200).json(data);
