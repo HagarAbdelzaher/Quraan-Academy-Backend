@@ -2,11 +2,10 @@ const { Course, Session, StudentCourses } = require("../models");
 const { BaseError } = require("../libs");
 
 const addCourse = async (data) => {
-
-  let date= new Date(data.startDate)
-  data.startDate =new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-  let date2 = new Date(data.endDate)
-  data.endDate =new Date(date2.getTime() - date2.getTimezoneOffset() * 60000)
+  let date = new Date(data.startDate);
+  data.startDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  let date2 = new Date(data.endDate);
+  data.endDate = new Date(date2.getTime() - date2.getTimezoneOffset() * 60000);
 
   const course = await Course.create(data);
   if (!course) {
@@ -110,6 +109,18 @@ const updateCourse = async (courseId, newData) => {
     throw new BaseError(
       "Cannot update time or price for a course that already started",
       400
+    );
+  }
+  if (startDate) {
+    let date = new Date(newData.startDate);
+    newData.startDate = new Date(
+      date.getTime() - date.getTimezoneOffset() * 60000
+    );
+  }
+  if (endDate) {
+    let date2 = new Date(newData.endDate);
+    newData.endDate = new Date(
+      date2.getTime() - date2.getTimezoneOffset() * 60000
     );
   }
   const updatedCourse = await Course.findByIdAndUpdate(courseId, newData, {
