@@ -2,7 +2,6 @@ const { Course, Session, StudentCourses } = require("../models");
 const { BaseError } = require("../libs");
 
 const addCourse = async (data) => {
-  console.log(data);
   const course = await Course.create(data);
   if (!course) {
     throw new BaseError("Adding Course Failed", 500);
@@ -18,7 +17,7 @@ const addCourseSessions = async (course) => {
   while (currentDate <= endDate) {
     if (
       daysOfWeek.includes(
-        currentDate.toLocaleDateString("en-EG", { weekday: "long" })
+        currentDate.toLocaleDateString("en-US", { weekday: "long" })
       )
     ) {
       let session = {
