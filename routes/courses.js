@@ -3,6 +3,7 @@ const express = require("express");
 const { courseController } = require("../controllers");
 const { asycnWrapper } = require("../libs");
 const { validation, CourseValidator } = require("../middlewares/validation");
+const { authAdmin } = require("../middlewares/auth");
 const router = express.Router();
 
 router.get(
@@ -31,6 +32,7 @@ router.get(
 );
 router.post(
   "/",
+  authAdmin,
   validation(CourseValidator.addCourse),
   async (req, res, next) => {
     let {
@@ -48,12 +50,12 @@ router.post(
         price,
       },
     } = req;
-    
+
     startDate = new Date(startDate);
     startDate.setDate(startDate.getDate() + 1);
     endDate = new Date(endDate);
     endDate.setDate(endDate.getDate() + 1);
-    
+
     const course = courseController.addCourse({
       name,
       level,
@@ -82,6 +84,7 @@ router.post(
 );
 router.patch(
   "/:id",
+  authAdmin,
   validation(CourseValidator.updateCourse),
   async (req, res, next) => {
     const courseId = req.params.id;
@@ -95,6 +98,7 @@ router.patch(
 );
 router.delete(
   "/:id",
+  authAdmin,
   validation(CourseValidator.deleteCourse),
   async (req, res, next) => {
     const course = courseController.deleteCourse(req.params.id);
