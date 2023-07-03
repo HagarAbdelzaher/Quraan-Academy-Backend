@@ -48,4 +48,23 @@ router.get(
   },
 );
 
+/**
+ * @DESC User can get all category not paginated filter by type
+ * @ROUTE GET /category/allCategories
+ * @visibility public
+*/
+
+router.get(
+  '/allCategories',
+  async (req, res, next) => {
+    const { type } = req.query;
+    const allCategories = categoryController.getUnpaginated(type);
+    const [error, data] = await asycnWrapper(allCategories);
+    if (error) {
+      return next(error);
+    }
+    res.status(200).json(data);
+  },
+);
+
 module.exports = router;
