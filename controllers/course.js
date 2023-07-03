@@ -2,6 +2,12 @@ const { Course, Session, StudentCourses } = require("../models");
 const { BaseError } = require("../libs");
 
 const addCourse = async (data) => {
+
+  let date= new Date(data.startDate)
+  data.startDate =new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+  let date2 = new Date(data.endDate)
+  data.endDate =new Date(date2.getTime() - date2.getTimezoneOffset() * 60000)
+
   const course = await Course.create(data);
   if (!course) {
     throw new BaseError("Adding Course Failed", 500);
