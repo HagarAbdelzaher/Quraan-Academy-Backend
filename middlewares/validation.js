@@ -194,7 +194,7 @@ const SessionValidator = {
 const RecordedCoursesValidator = {
   addRecordedCourse: {
     body: Joi.object().keys({
-      name: Joi.string().trim().min(3).max(25).required(),
+      name: Joi.string().trim().min(3).max(255).required(),
       price: Joi.number().min(1).required(),
       category: Joi.string().trim().required().length(24),
     }),

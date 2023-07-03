@@ -11,7 +11,7 @@ const recordedCoursesSchema = new Schema(
             type: String,
             required: true,
             minlength: 3,
-            maxlength: 25,
+            maxlength: 255,
         },
         price: {
             type: Number,
