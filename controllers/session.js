@@ -63,7 +63,7 @@ const getSessionById = async (id) =>
 const setMeeting = async (sessionId, teacher) => {
   let session = await getSessionById(sessionId);
   const currentDate = Date.now();
-  if (session.date < currentDate) {
+  if (hasSessionEnded(session)) {
     throw new BaseError("The session date has expired", 404);
   }
   if (session.courseID.teacher.toString() !== teacher.id.toString()) {
@@ -86,16 +86,31 @@ const setMeeting = async (sessionId, teacher) => {
   );
   return session;
 };
+const hasSessionEnded = function (session) {
+  const sessionDate = new Date(session.date.toString().split("T")[0]);
+  const sessionTime = session.endTime;
+
+  sessionDate.setHours(Number(sessionTime.toString().split(":")[0]));
+  sessionDate.setMinutes(Number(sessionTime.toString().split(":")[1]));
+
+  const today = new Date();
+
+  return today > sessionDate;
+};
 
 const setProgressComment = async (sessionId, teacherId, progressComment) => {
-  const session = await Session.findOne({ _id: sessionId })
-  if(!session) throw new BaseError('Session not found', 404);
-  const course = await Course.findOne({ _id: session.courseID, teacher: teacherId })
-  if (!course) throw new BaseError('You are not authorized to perform this action', 401);
+  const session = await Session.findOne({ _id: sessionId });
+  if (!session) throw new BaseError("Session not found", 404);
+  const course = await Course.findOne({
+    _id: session.courseID,
+    teacher: teacherId,
+  });
+  if (!course)
+    throw new BaseError("You are not authorized to perform this action", 401);
   session.progressComment = progressComment;
   session.save();
   return session;
-}
+};
 
 module.exports = {
   getSessions,
