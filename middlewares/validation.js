@@ -348,8 +348,8 @@ const StudentValidator = {
     body: Joi.object().keys({
       email: Joi.string().email(),
       password: Joi.string().min(8),
-      firstName: Joi.string().min(3),
-      lastName: Joi.string().min(3),
+      firstName: Joi.string().trim().min(3),
+      lastName: Joi.string().trim().min(3),
       DOB: Joi.date(),
       gender: Joi.string().valid("Male", "Female"),
       level: Joi.string(),
@@ -364,8 +364,8 @@ const StudentValidator = {
     body: Joi.object().keys({
       email: Joi.string().email(),
       password: Joi.string().min(8),
-      firstName: Joi.string().min(3),
-      lastName: Joi.string().min(3),
+      firstName: Joi.string().trim().min(3),
+      lastName: Joi.string().trim().min(3),
       DOB: Joi.date(),
       gender: Joi.string().valid("Male", "Female"),
     }),
