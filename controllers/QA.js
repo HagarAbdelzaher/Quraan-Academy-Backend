@@ -53,6 +53,9 @@ const getAllQuestions = async (page, limit, filter) => {
   if (filter.teacherID) {
     query.teacherID = filter.teacherID;
   }
+  if (filter.answered) {
+    query.answer = {$exists: true};
+  }
 
   const questions = await Question.paginate(
     query,
