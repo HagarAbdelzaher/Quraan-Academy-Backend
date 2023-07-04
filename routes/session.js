@@ -64,4 +64,20 @@ router.get(
   },
 );
 
+router.patch(
+  '/:id/comment',
+  authTeacher,
+  validation(SessionValidator.addComment),
+  async (req, res, next) => {
+    const { id } = req.params
+    const { progressComment } = req.body;
+    const teacher = req.teacher;
+    const updatedSession = sessionController.setProgressComment(id, teacher, progressComment);
+    const [err, data] = await asycnWrapper(updatedSession);
+    if (err) {
+      return next(err);
+    }
+    res.status(200).json(data);
+  }
+)
 module.exports = router;

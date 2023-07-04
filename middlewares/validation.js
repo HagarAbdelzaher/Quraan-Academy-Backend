@@ -189,6 +189,13 @@ const SessionValidator = {
         id: Joi.string().length(24).required(),
       }),
   },
+  addComment: {
+    body: Joi.object()
+      .required()
+      .keys({
+        progressComment: Joi.string().trim().min(3).max(255).required(),
+      }),
+  },
 };
 
 const RecordedCoursesValidator = {

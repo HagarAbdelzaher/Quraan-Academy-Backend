@@ -79,7 +79,6 @@ const getSessionById = async (id, teacherID) => {
   return session;
 };
 
-
 module.exports = {
   getTeachers,
   getTeacherById,

@@ -45,7 +45,7 @@ const getOneStudentCourse = async (studentId, courseId) => {
     throw new BaseError('Course not Found', 404);
   }
   const sessions = await Session.find({ courseID: courseId });
-  if (!sessions) { throw new BaseError('Session not Found', 404); } 
+  if (!sessions) { throw new BaseError('Session not Found', 404); }
 
   course.sessions = sessions;
 
@@ -56,7 +56,7 @@ const getSessionById = async (id, studentId) => {
     path: 'courseID',
     populate: {
       path: 'teacher',
-      select:'firstName lastName',
+      select: 'firstName lastName',
       model: 'Teacher'
     }
   });
@@ -65,6 +65,11 @@ const getSessionById = async (id, studentId) => {
   if (!studentEnrolled) { throw new BaseError('You are not authorized to get this session', 400); }
   return session;
 };
+
+const getEnrolledStudents = async () => {
+  
+}
+
 
 module.exports = {
   getOneStudentCourse,

@@ -23,6 +23,9 @@ const sessionSchema = new Schema(
     },
     progressComment: {
       type: String,
+      trim: true,
+      minLength: 3,
+      maxLength: 255
     },
     startUrl: {
       type: String,
