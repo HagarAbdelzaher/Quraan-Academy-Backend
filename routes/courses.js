@@ -1,9 +1,9 @@
 /* eslint-disable consistent-return */
 const express = require("express");
-const { courseController } = require("../controllers");
+const { courseController , studentCoursesController} = require("../controllers");
 const { asycnWrapper } = require("../libs");
 const { validation, CourseValidator } = require("../middlewares/validation");
-const { authAdmin } = require("../middlewares/auth");
+const { authAdmin, authTeacher } = require("../middlewares/auth");
 const router = express.Router();
 
 router.get(
@@ -114,4 +114,30 @@ router.get(
   }
 );
 
+router.get(
+  "/:id/students",
+  authTeacher,
+  validation(CourseValidator.idParam),
+  async (req, res, next) => {
+    const { id } = req.params;
+    const teacherId = req.teacher.id;
+    const [err, data] = await asycnWrapper(studentCoursesController.studentsCourse(id, teacherId));
+    if (err) return next(err);
+    res.status(200).json(data);
+  }
+);
+
+router.patch(
+  "/:id/studentComment",
+  authTeacher,
+  validation(CourseValidator.idParam),
+  async (req, res, next) => {
+    const { id } = req.params;
+    const {studentId, comment } = req.body;
+    const teacherId = req.teacher.id;
+    const [err, data] = await asycnWrapper(studentCoursesController.updateTeacherComment(id, teacherId,studentId,comment));
+    if (err) return next(err);
+    res.status(200).json(data);
+  }
+);
 module.exports = router;
