@@ -1,42 +1,54 @@
-const crypto = require('crypto');
+const crypto = require("crypto");
 const {
-  Course, PaymentToken, StudentCourses, Student, RecordedCourses, StudentRecordedCourses
-} = require('../models');
-const { BaseError } = require('../libs');
-const stripe = require('stripe')(process.env.STRIPE_SECRET);
+  Course,
+  PaymentToken,
+  StudentCourses,
+  Student,
+  RecordedCourses,
+  StudentRecordedCourses,
+} = require("../models");
+const { BaseError } = require("../libs");
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 const checkoutCourse = async (courseId, studentId, recorded) => {
   let course;
   let pervCourse;
-  if (recorded === 'true') {
+  if (recorded === "true") {
     course = await RecordedCourses.findById(courseId);
-    pervCourse = await StudentRecordedCourses.findOne({ courseID: courseId, studentId })
+    pervCourse = await StudentRecordedCourses.findOne({
+      courseID: courseId,
+      studentId,
+    });
   } else {
     course = await Course.findById(courseId);
-    pervCourse = await StudentCourses.findOne({ courseId, studentId })
+    pervCourse = await StudentCourses.findOne({ courseId, studentId });
   }
   if (!course) {
-    throw new BaseError('Course not Found', 404);
+    throw new BaseError("Course not Found", 404);
   }
   if (pervCourse) {
     throw new BaseError(`you already enroll in this course`, 400);
   }
   const courseEndDate = new Date(course.endDate);
-  const currentDate = new Date();  
+  const currentDate = new Date();
   if (courseEndDate < currentDate) {
-    throw new BaseError('The course has already finished', 400);
+    throw new BaseError("The course has already finished", 400);
   }
 
-  const token = crypto.randomBytes(16).toString('hex');
+  const token = crypto.randomBytes(16).toString("hex");
   await PaymentToken.create({
     token,
     studentId,
   });
+  if (course.price === 0) {
+    await enrollLiveCourse(studentId, courseId, recorded);
+    return "free";
+  }
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
         price_data: {
-          currency: 'usd',
+          currency: "usd",
           product_data: {
             name: course.name,
           },
@@ -45,7 +57,7 @@ const checkoutCourse = async (courseId, studentId, recorded) => {
         quantity: 1,
       },
     ],
-    mode: 'payment',
+    mode: "payment",
     success_url: `${process.env.SERVER_URL}/student/enroll-course?token=${token}&studentId=${studentId}&courseId=${courseId}&recorded=${recorded}`,
     cancel_url: `${process.env.SERVER_URL}/student/paymentCancel?token=${token}&studentId=${studentId}`,
   });
@@ -53,43 +65,50 @@ const checkoutCourse = async (courseId, studentId, recorded) => {
   return session.url;
 };
 
-const enrollCourse = async (token, studentId, courseId, recorded) => {
-  const pToken = await PaymentToken.findOneAndDelete({
-    token,
-    studentId,
-    status: 'valid',
-  });
-  if (!pToken) {
-    throw new BaseError('You are not authorized to perform this action', 404);
-  }
+const enrollLiveCourse = async (studentId, courseId, recorded) => {
   let studentCourse;
-  if (recorded === 'true') {
-    studentCourse = await StudentRecordedCourses.create({ courseID: courseId, studentId });
+  if (recorded === "true") {
+    studentCourse = await StudentRecordedCourses.create({
+      courseID: courseId,
+      studentId,
+    });
     if (!studentCourse) {
-      throw new BaseError('Adding Course Failed', 500);
+      throw new BaseError("Adding Course Failed", 500);
     }
     studentCourse = await StudentRecordedCourses.populate(studentCourse, [
-      { path: 'courseID' },
-      { path: 'studentId' },
+      { path: "courseID" },
+      { path: "studentId" },
     ]);
   } else {
     studentCourse = await StudentCourses.create({ courseId, studentId });
     if (!studentCourse) {
-      throw new BaseError('Adding Course Failed', 500);
+      throw new BaseError("Adding Course Failed", 500);
     }
     studentCourse = await StudentCourses.populate(studentCourse, [
-      { path: 'courseId' },
-      { path: 'studentId' },
+      { path: "courseId" },
+      { path: "studentId" },
     ]);
   }
   return studentCourse;
+};
+
+const enrollCourse = async (token, studentId, courseId, recorded) => {
+  const pToken = await PaymentToken.findOneAndDelete({
+    token,
+    studentId,
+    status: "valid",
+  });
+  if (!pToken) {
+    throw new BaseError("You are not authorized to perform this action", 404);
+  }
+  return await enrollLiveCourse(studentId, courseId, recorded);
 };
 
 const paymentCancel = async (token, studentId) => {
   await PaymentToken.findOneAndDelete({
     token,
     studentId,
-    status: 'valid',
+    status: "valid",
   });
 };
 
@@ -107,7 +126,7 @@ const getStudents = async (page, limit, gender, DOB) => {
     .limit(limit)
     .exec();
   if (!students) {
-    throw new BaseError('No students found', 404);
+    throw new BaseError("No students found", 404);
   }
   return students;
 };
@@ -115,7 +134,7 @@ const getStudents = async (page, limit, gender, DOB) => {
 const updateStudent = async (studentId, newData) => {
   const student = await Student.findById(studentId);
   if (!student) {
-    throw new BaseError('Student not Found', 404);
+    throw new BaseError("Student not Found", 404);
   }
   const updatedStudent = await Student.findByIdAndUpdate(studentId, newData, {
     returnOriginal: false,
@@ -126,7 +145,7 @@ const updateStudent = async (studentId, newData) => {
 const getStudentById = async (id) => {
   const student = await Student.findById(id);
   if (!student) {
-    throw new BaseError('Student not Found', 404);
+    throw new BaseError("Student not Found", 404);
   }
   return student;
 };

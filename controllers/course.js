@@ -7,7 +7,7 @@ const addCourse = async (data) => {
   let date2 = new Date(data.endDate);
   data.endDate = new Date(date2.getTime() - date2.getTimezoneOffset() * 60000);
 
-  if (data.startDate < data.endDate) {
+  if (data.startDate > data.endDate) {
     throw new BaseError("End date must be after start date ", 422);
   }
 
