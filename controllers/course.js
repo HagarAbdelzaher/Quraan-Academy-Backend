@@ -161,8 +161,9 @@ const deleteCourse = async (courseId) => {
   const enrolledStudents = await StudentCourses.find({
     courseId: course._id,
   });
+
   // check that course did end
-  if (enrolledStudents && currentDate < courseCurrentEndDate) {
+  if (enrolledStudents.length > 0 && currentDate < courseCurrentEndDate) {
     throw new BaseError("Cannot delete a course with enrolled students", 400);
   }
 
