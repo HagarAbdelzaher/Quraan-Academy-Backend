@@ -17,12 +17,14 @@ const adminSchema = new Schema(
       required: true,
       minlength: 3,
       maxlength: 15,
+      trim: true,
     },
     lastName: {
       type: String,
       required: true,
       minlength: 3,
       maxlength: 15,
+      trim: true,
     },
     password: {
       type: String,
