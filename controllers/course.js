@@ -189,6 +189,7 @@ const getCourseById = async (id) => {
   }
   return course;
 };
+
 module.exports = {
   addCourse,
   addCourseSessions,

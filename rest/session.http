@@ -5,6 +5,6 @@
 
 
 ### ceate-meeting
-GET {{url}}/session/create-meeting/649dd2bd9cd2eae89bf89258
+GET {{url}}/session/create-meeting/64a1e81a8b3ec8ad5ceeff6f
 Content-Type: application/json
 Authorization: {{token}}

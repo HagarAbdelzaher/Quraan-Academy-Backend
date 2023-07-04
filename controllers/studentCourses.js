@@ -1,5 +1,5 @@
 const { BaseError } = require('../libs');
-const { StudentCourses, Session } = require('../models');
+const { StudentCourses, Session, Course } = require('../models');
 
 const deleteCourse = async (studentId, courseId) => {
   const deletedCourse = await StudentCourses.findOneAndDelete({
@@ -66,15 +66,44 @@ const getSessionById = async (id, studentId) => {
   return session;
 };
 
-const getEnrolledStudents = async () => {
-  
+
+const studentsCourse = async (courseId, teacherId) => {
+  const course = await Course.findById(courseId);
+  if (!course) {
+    throw new BaseError("Course not Found", 404);
+  }
+  if (course.teacher.toString() !== teacherId.toString()) {
+    throw new BaseError("You are not authorized to perform this action", 404);
+  }
+  const students = await StudentCourses.find({ courseId }).populate('studentId courseId');
+
+  return students ;
 }
 
+const updateTeacherComment = async (courseId, teacherId ,studentId ,comment) => {
+  const course = await Course.findById(courseId);
+  if (!course) {
+    throw new BaseError("Course not Found", 404);
+  }
+  if (course.teacher.toString() !== teacherId.toString()) {
+    throw new BaseError("You are not authorized to perform this action", 404);
+  }
+  const Updatedcourse = await StudentCourses.findOneAndUpdate({courseId, studentId} ,
+  {
+    teacherComment:comment,
+  },
+  {
+    returnOriginal: false,
+  }).populate('studentId courseId');
 
+  return Updatedcourse ;
+}
 module.exports = {
   getOneStudentCourse,
   deleteCourse,
   getAllStudentCourses,
   getNumberOfStudents,
   getSessionById,
+  studentsCourse,
+  updateTeacherComment,
 };
