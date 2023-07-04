@@ -35,8 +35,8 @@ const UsersValidator = {
     body: Joi.object().keys({
       email: Joi.string().email().required(),
       password: Joi.string().required().min(8),
-      firstName: Joi.string().required().min(3),
-      lastName: Joi.string().required().min(3),
+      firstName: Joi.string().required().min(3).trim(),
+      lastName: Joi.string().required().min(3).trim(),
       DOB: Joi.date().required(),
       gender: Joi.string().valid("Male", "Female").required(),
     }),
@@ -138,8 +138,8 @@ const TeacherValidator = {
     body: Joi.object().keys({
       email: Joi.string().email(),
       password: Joi.string().min(8),
-      firstName: Joi.string().min(3),
-      lastName: Joi.string().min(3),
+      firstName: Joi.string().min(3).trim(),
+      lastName: Joi.string().min(3).trim(),
       DOB: Joi.date(),
       gender: Joi.string().valid("Male", "Female"),
     }),
@@ -153,8 +153,8 @@ const TeacherValidator = {
     body: Joi.object().keys({
       email: Joi.string().email(),
       password: Joi.string().min(8),
-      firstName: Joi.string().min(3),
-      lastName: Joi.string().min(3),
+      firstName: Joi.string().trim().min(3),
+      lastName: Joi.string().trim().min(3),
       DOB: Joi.date(),
       gender: Joi.string().valid("Male", "Female"),
     }),

@@ -1,7 +1,7 @@
 @url = http://localhost:3000
 #@url = https://quraan.onrender.com
 
- @token = yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTM0OTJhZTJjZjczNTFlNzc3NGJmNSIsImVtYWlsIjoiaGF5YWhoYXplbTE5OTlAZ21haWwuY29tIiwicm9sZSI6InRlYWNoZXIiLCJpYXQiOjE2ODg0NDM1ODksImV4cCI6MTY4OTA0ODM4OX0.20X1r1EzPBG5y2yVCoamhh8HMF1jo6Uo-VT4F_N6Qmk
+ @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTM0OTJhZTJjZjczNTFlNzc3NGJmNSIsImVtYWlsIjoiaGF5YWhoYXplbTE5OTlAZ21haWwuY29tIiwicm9sZSI6InRlYWNoZXIiLCJpYXQiOjE2ODg0NDM4MzgsImV4cCI6MTY4OTA0ODYzOH0.1vr5ykhqGEnhQI4CxWvpU2lMYkyRxB7ZB9ZQZWDfiDU
 
 ### Get_All_Teacher
 get  {{url}}/student/checkout-course/64a044b3f3bcf324ad879102?recorded=true
@@ -39,3 +39,14 @@ Authorization: {{token}}
 GET  {{url}}/course/64a34bdee2cf7351e7774c63/students
 Content-Type: application/json
 Authorization: {{token}}
+
+
+### Update_teacher_comment
+PATCH   {{url}}/course/64a34bdee2cf7351e7774c63/studentComment
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "studentId": "64a3575e716b21a2df55361c",
+    "comment": "Good work"
+}
