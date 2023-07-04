@@ -61,7 +61,7 @@ const studentFinishChapter = async (studentId, recordedCourseId, chapterId) => {
         throw new BaseError("student isn't enrolled in that recorded course", 400);
     }
     if (recordedCourse.progress.includes(chapterId)) {
-        throw new BaseError("Chapter is already marked as complete", 400);
+        return;
     }
     if (recordedCourse.progress.length == course.numberOfChapters) {
         throw new BaseError("All chapters of this recorded course are already completed", 400);
