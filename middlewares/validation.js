@@ -202,7 +202,7 @@ const RecordedCoursesValidator = {
   addRecordedCourse: {
     body: Joi.object().keys({
       name: Joi.string().trim().min(3).max(255).required(),
-      price: Joi.number().min(1).required(),
+      price: Joi.number().min(0).required(),
       category: Joi.string().trim().required().length(24),
     }),
   },
@@ -216,7 +216,7 @@ const RecordedCoursesValidator = {
   updateRecordeCourses: {
     body: Joi.object().keys({
       name: Joi.string().trim().min(3).max(25),
-      price: Joi.number().min(1),
+      price: Joi.number().min(0),
       category: Joi.string().trim().length(24),
     }),
     params: Joi.object()
